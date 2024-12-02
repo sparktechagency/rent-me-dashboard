@@ -11,46 +11,39 @@ import {
 
 const data = [
   {
-    name: "Page A",
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
+    name: "Mo",
+    Sales: 4000,
+    Revenue: 2400,
   },
   {
-    name: "Page B",
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
+    name: "Tu",
+    Sales: 3000,
+    Revenue: 1398,
   },
   {
-    name: "Page C",
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
+    name: "We",
+    Sales: 6800,
+    Revenue: 3200,
   },
   {
     name: "Page D",
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
+    Sales: 4780,
+    Revenue: 1908,
   },
   {
     name: "Page E",
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
+    Sales: 4890,
+    Revenue: 2800,
   },
   {
     name: "Page F",
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
+    Sales: 3390,
+    Revenue: 2800,
   },
   {
     name: "Page G",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
+    Sales: 3490,
+    Revenue: 1300,
   },
 ];
 
@@ -74,16 +67,16 @@ const SalesTrackingChart = () => {
         <Legend />
         {/* Thinner bars */}
         <Bar
-          dataKey="pv"
+          dataKey="Sales"
           stackId="a"
-          fill="#8884d8"
+          fill="#F3E524"
           radius={[20, 20, 0, 0]} // Optional: rounded top corners
           barSize={10} // Make bars thinner
         />
         <Bar
-          dataKey="uv"
+          dataKey="Revenue"
           stackId="a"
-          fill="#82ca9d"
+          fill="#FFF2DC"
           radius={[20, 20, 0, 0]} // Optional: rounded top corners
           barSize={10} // Make bars thinner
         />
