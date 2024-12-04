@@ -16,6 +16,8 @@ import { PiUserPlus, PiUsers } from "react-icons/pi";
 import { LuLayoutDashboard } from "react-icons/lu";
 
 import logo from "../../assets/navLogo.png";
+import { DiGoogleAnalytics } from "react-icons/di";
+import { SlCalender } from "react-icons/sl";
 
 const Sidebar = () => {
   const location = useLocation();
@@ -40,53 +42,55 @@ const Sidebar = () => {
       ),
     },
     {
+      key: "/analytics",
+      icon: <DiGoogleAnalytics size={24} />,
+      label: <Link to="/analytics">Analytics</Link>,
+    },
+    {
       key: "/users",
-      icon: <PiUsers size={24} />,
+      icon: <TbUserScreen size={24} />,
       label: <Link to="/users">Users</Link>,
     },
     {
-      key: "/subscribers",
-      icon: <TbUserScreen size={24} />,
-      label: <Link to="/subscribers">Subscribers</Link>,
-    },
-    {
-      key: "/admin",
+      key: "/vendor",
       icon: <PiUserPlus size={24} />,
-      label: <Link to="/admin">Make Admin</Link>,
+      label: <Link to="/vendor">Vendor</Link>,
     },
     {
-      key: "/blogs",
-      icon: <BiBookContent size={24} />,
-      label: <Link to="/blogs">Blogs</Link>,
+      key: "/promotion",
+      icon: <SlCalender size={24} />,
+      label: <Link to="/promotion">Promotion</Link>,
     },
-    {
-      key: "/faq",
-      icon: <FaQuestion size={24} />,
-      label: <Link to="/faq">FAQ</Link>,
-    },
-    {
-      key: "/subscription",
-      icon: <MdOutlineSubscriptions size={24} />,
-      label: <Link to="/subscription">Subscription</Link>,
-    },
+
     {
       key: "subMenuSetting",
       icon: <IoSettingsOutline size={24} />,
       label: "Settings",
       children: [
         {
-          key: "/about-us",
+          key: "/personal-information",
           label: (
-            <Link to="/about-us" className="text-[#6B6B6B] hover:text-white">
-              About Us
+            <Link
+              to="/personal-information"
+              className="text-[#6B6B6B] hover:text-white"
+            >
+              Personal Information
             </Link>
           ),
         },
         {
-          key: "/terms-and-conditions",
+          key: "/change-password",
+          label: (
+            <Link to="/change-password" className="text-white hover:text-white">
+              Change Password
+            </Link>
+          ),
+        },
+        {
+          key: "/terms-and-condition",
           label: (
             <Link
-              to="/terms-and-conditions"
+              to="/terms-and-condition"
               className="text-white hover:text-white"
             >
               Terms And Condition
@@ -101,56 +105,13 @@ const Sidebar = () => {
             </Link>
           ),
         },
-        {
-          key: "/press",
-          label: (
-            <Link to="/press" className="text-white hover:text-white">
-              Press
-            </Link>
-          ),
-        },
-        {
-          key: "/affiliate-program",
-          label: (
-            <Link
-              to="/affiliate-program"
-              className="text-white hover:text-white"
-            >
-              Affiliate Program
-            </Link>
-          ),
-        },
-        {
-          key: "/support",
-          label: (
-            <Link to="/support" className="text-white hover:text-white">
-              Support
-            </Link>
-          ),
-        },
-        {
-          key: "/safety-tips",
-          label: (
-            <Link to="/safety-tips" className="text-white hover:text-white">
-              Safety Tips
-            </Link>
-          ),
-        },
-        {
-          key: "/cookie-policy",
-          label: (
-            <Link to="/cookie-policy" className="text-white hover:text-white">
-              Cookie Policy
-            </Link>
-          ),
-        },
       ],
     },
-    {
-      key: "/logout",
-      icon: <IoIosLogOut size={24} />,
-      label: <p onClick={handleLogout}>Logout</p>,
-    },
+    // {
+    //   key: "/logout",
+    //   icon: <IoIosLogOut size={24} />,
+    //   label: <p onClick={handleLogout}>Logout</p>,
+    // },
   ];
 
   useEffect(() => {

@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import { Table } from 'antd';
-import { CiEdit } from 'react-icons/ci';
-import SubscriptionUpdate from '../../components/ui/Subscription/SubscriptionUpdate';
-import Title from '../../components/common/Title';
+import React, { useState } from "react";
+import { Table } from "antd";
+import { CiEdit } from "react-icons/ci";
+import Title from "../../components/common/Title";
 
 const Subscription = () => {
   const [open, setOpen] = useState(false);
@@ -74,9 +73,7 @@ const Subscription = () => {
 
   return (
     <div className="">
-      <Title className=" mb-4">
-        Subscriptions
-      </Title>
+      <Title className=" mb-4">Subscriptions</Title>
       <Table columns={columns} dataSource={data} />
       <SubscriptionUpdate open={open} setOpen={setOpen} items={items} />
     </div>

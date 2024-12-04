@@ -26,22 +26,22 @@ const data = [
     Revenue: 3200,
   },
   {
-    name: "Page D",
+    name: "Th",
     Sales: 4780,
     Revenue: 1908,
   },
   {
-    name: "Page E",
+    name: "Fr",
     Sales: 4890,
     Revenue: 2800,
   },
   {
-    name: "Page F",
+    name: "Su",
     Sales: 3390,
     Revenue: 2800,
   },
   {
-    name: "Page G",
+    name: "St",
     Sales: 3490,
     Revenue: 1300,
   },

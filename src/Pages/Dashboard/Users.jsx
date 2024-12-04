@@ -1,175 +1,191 @@
-import { ConfigProvider, Input, Modal, Table } from 'antd'
-import React, { useState } from 'react'
-import { FiEye } from 'react-icons/fi';
-import { useNavigate } from 'react-router-dom';
-import Title from '../../components/common/Title';
+import React, { useState } from "react";
+import { Table, Button, Space, Avatar } from "antd";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
+// Actions
 
-const data = [
-    {
-        key: "1",
-        image: "https://randomuser.me/api/portraits/men/1.jpg",
-        name: "John Doe",
-        location: "New York, USA",
-        email: "john.doe@example.com",
-        age: 28,
-    },
-    {
-        key: "2",
-        image: "https://randomuser.me/api/portraits/women/2.jpg",
-        name: "Jane Smith",
-        location: "Los Angeles, USA",
-        email: "jane.smith@example.com",
-        age: 32,
-    },
-    {
-        key: "3",
-        image: "https://randomuser.me/api/portraits/men/3.jpg",
-        name: "Michael Johnson",
-        location: "Chicago, USA",
-        email: "michael.johnson@example.com",
-        age: 25,
-    },
-    {
-        key: "4",
-        image: "https://randomuser.me/api/portraits/women/4.jpg",
-        name: "Emily Davis",
-        location: "Houston, USA",
-        email: "emily.davis@example.com",
-        age: 29,
-    },
-    {
-        key: "5",
-        image: "https://randomuser.me/api/portraits/men/5.jpg",
-        name: "Chris Brown",
-        location: "Phoenix, USA",
-        email: "chris.brown@example.com",
-        age: 34,
-    },
-    {
-        key: "6",
-        image: "https://randomuser.me/api/portraits/women/6.jpg",
-        name: "Sophia Wilson",
-        location: "Philadelphia, USA",
-        email: "sophia.wilson@example.com",
-        age: 27,
-    },
-    {
-        key: "7",
-        image: "https://randomuser.me/api/portraits/men/7.jpg",
-        name: "David Taylor",
-        location: "San Antonio, USA",
-        email: "david.taylor@example.com",
-        age: 31,
-    },
-    {
-        key: "8",
-        image: "https://randomuser.me/api/portraits/women/8.jpg",
-        name: "Olivia Martinez",
-        location: "San Diego, USA",
-        email: "olivia.martinez@example.com",
-        age: 26,
-    },
-  
+// Example data based on your `users` array with imgUrl added
+const dataSource = [
+  {
+    id: "6563",
+    name: "John Doe",
+    email: "john.doe@example.com",
+    status: "Active",
+    imgUrl: "https://www.example.com/path/to/image1.jpg",
+  },
+  {
+    id: "6564",
+    name: "Jane Smith",
+    email: "jane.smith@example.com",
+    status: "Inactive",
+    imgUrl: "https://www.example.com/path/to/image2.jpg",
+  },
+  {
+    id: "6565",
+    name: "Michael Johnson",
+    email: "michael.johnson@example.com",
+    status: "Active",
+    imgUrl: "https://www.example.com/path/to/image3.jpg",
+  },
+  {
+    id: "6566",
+    name: "Emily Davis",
+    email: "emily.davis@example.com",
+    status: "Pending",
+    imgUrl: "https://www.example.com/path/to/image4.jpg",
+  },
+  {
+    id: "6567",
+    name: "David Williams",
+    email: "david.williams@example.com",
+    status: "Active",
+    imgUrl: "https://www.example.com/path/to/image5.jpg",
+  },
+  {
+    id: "6568",
+    name: "Sarah Brown",
+    email: "sarah.brown@example.com",
+    status: "Inactive",
+    imgUrl: "https://www.example.com/path/to/image6.jpg",
+  },
+  {
+    id: "6569",
+    name: "James Taylor",
+    email: "james.taylor@example.com",
+    status: "Active",
+    imgUrl: "https://www.example.com/path/to/image7.jpg",
+  },
+  {
+    id: "6570",
+    name: "Jessica Wilson",
+    email: "jessica.wilson@example.com",
+    status: "Pending",
+    imgUrl: "https://www.example.com/path/to/image8.jpg",
+  },
 ];
 
+const App = () => {
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const navigate = useNavigate();
+  const onSelectChange = (newSelectedRowKeys) => {
+    console.log("selectedRowKeys changed: ", newSelectedRowKeys);
+    setSelectedRowKeys(newSelectedRowKeys);
+  };
 
-const Users = () => {
-    const [search, setSearch] = useState("") 
-    const navigate = useNavigate()
-    const [page, setPage] = useState(1);
-    const itemsPerPage = 10;
- 
-    const handleUser =(id)=>{
-        navigate(`/user/${id}`)
-    }
+  const columns = [
+    {
+      title: "Id",
+      dataIndex: "id",
+      key: "id",
+    },
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      render: (text, record) => (
+        <Space>
+          <Avatar src={record.imgUrl} alt={text} size="large" />
+          <span>{text}</span>
+        </Space>
+      ),
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      render: (status) => {
+        let color;
+        switch (status) {
+          case "Active":
+            color = "green";
+            break;
+          case "Inactive":
+            color = "red";
+            break;
+          case "Pending":
+            color = "orange";
+            break;
+          default:
+            color = "gray"; // Default color for unknown statuses
+        }
 
-    const columns = [
-        {
-            title: "Serial No.",
-            dataIndex: "name",
-            key: "name",
-            render: (_,record, index) =><p>{((page - 1) * itemsPerPage) + index + 1}</p>
-        },
-        {
-            title: "User",
-            dataIndex: "user",
-            key: "user",
-            render: (_,record, index) => <div className='flex items-center gap-x-2'>
-                <img 
-                    src={record?.image}
-                    style={{height: 40, width: 40, borderRadius: 8}} 
-                    alt=""
-                />
-                <p> {record?.name}</p>
-            </div>
-        },
-        {
-            title: "EMAIL",
-            dataIndex: "email",
-            key: "email",
-        },
-        {
-            title: "Age",
-            dataIndex: "age",
-            key: "age",
-        },
-        
-        {
-            title: "Location",
-            dataIndex: "location",
-            key: "location",
-           
-        },
-        {
-            title: "ACTIONS",
-            dataIndex: "actions",
-            key: "actions",
-            render: (_,record) => <FiEye size={22} color='#999999' onClick={() => handleUser(record?.key)} className={"cursor-pointer"}/>
-            
-        },
-    ];
-    return (
-        <>
-            <div className='flex items-center justify-between mb-4'>
-                <Title >Users</Title>
-                <Input
-                    style={{
-                        width: 300, 
-                        height: 40,
-                        outline: "none",
-                        border: "1px solid #d9d9d9",
-                        boxShadow: "none"
-                    }}
-                    placeholder="Search.."
-                    onChange={(e)=>setSearch(e.target.value)}
-                />
-            </div>
+        return <span style={{ color }}>{status}</span>;
+      },
+    },
+    {
+      title: "Actions",
+      key: "actions",
+      render: (text, record) => (
+        <Space>
+          <Button
+            className="bg-[#FFF4E3] text-[#F3B806] border-none"
+            onClick={() => handleDetails(record.id)}
+          >
+            Details
+          </Button>
 
-            <ConfigProvider
-                theme={{
-                    components: {
-                        Pagination: {
-                            itemActiveBg: "#007BA5",
-                            borderRadius: "100%"
-                        }
-                    },
-                    token:{
-                        colorPrimary: "white"
-                    }
-                }}
-            >
-                <Table 
-                    columns={columns} 
-                    dataSource={data} 
-                    pagination={{
-                        current: parseInt(page),
-                        onChange: (page)=> setPage(page)
-                    }}
-                />
-            </ConfigProvider>
-        </>
-    )
-}
+          <Button
+            className="border border-red-600 text-red-700 "
+            onClick={() => handleRestrict(record.id)}
+          >
+            Restrict
+          </Button>
+        </Space>
+      ),
+    },
+  ];
 
-export default Users;
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: onSelectChange,
+    selections: [
+      Table.SELECTION_ALL,
+      Table.SELECTION_INVERT,
+      Table.SELECTION_NONE,
+      {
+        key: "odd",
+        text: "Select Odd Row",
+        onSelect: (changeableRowKeys) => {
+          let newSelectedRowKeys = changeableRowKeys.filter(
+            (_, index) => index % 2 === 0
+          );
+          setSelectedRowKeys(newSelectedRowKeys);
+        },
+      },
+      {
+        key: "even",
+        text: "Select Even Row",
+        onSelect: (changeableRowKeys) => {
+          let newSelectedRowKeys = changeableRowKeys.filter(
+            (_, index) => index % 2 !== 0
+          );
+          setSelectedRowKeys(newSelectedRowKeys);
+        },
+      },
+    ],
+  };
+
+  const handleDetails = (id) => {
+    navigate(`/user/${id}`);
+  };
+
+  const handleRestrict = (id) => {
+    console.log(`Restrict clicked for user with id: ${id}`);
+  };
+
+  return (
+    <Table
+      rowSelection={rowSelection}
+      columns={columns}
+      dataSource={dataSource}
+      rowKey="id"
+    />
+  );
+};
+
+export default App;

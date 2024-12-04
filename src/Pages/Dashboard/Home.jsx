@@ -9,6 +9,9 @@ import SalesTrackingChart from "../../components/ui/Home/SalesTrackingChart";
 import { GrUserNew } from "react-icons/gr";
 import { TbListCheck } from "react-icons/tb";
 import { LuPlaySquare } from "react-icons/lu";
+import RunningOrdersTable from "../../components/ui/Home/RunningOrdersTable";
+
+import UserEngagement from "../../components/ui/Home/UserEngagement";
 
 const Home = () => {
   const summaryData = [
@@ -80,13 +83,11 @@ const Home = () => {
   const calculateVendorStats = (vendors) => {
     const totalVendors = vendors.length;
 
-    // Count "Done" and "In Progress" vendors
     const doneCount = vendors.filter(
       (vendor) => vendor.status === "Done"
     ).length;
     const progressCount = totalVendors - doneCount;
 
-    // Calculate percentages for "Done" and "In Progress"
     const donePercentage = totalVendors
       ? Math.round((doneCount / totalVendors) * 100)
       : 0;
@@ -94,7 +95,6 @@ const Home = () => {
       ? Math.round((progressCount / totalVendors) * 100)
       : 0;
 
-    // Calculate average progress percentage
     const totalPercent = vendors.reduce(
       (acc, vendor) => acc + parseInt(vendor.percent),
       0
@@ -114,20 +114,20 @@ const Home = () => {
 
   return (
     <div>
-      <div className="grid grid-cols-5 gap-6 h-[100px]">
+      <div className="grid md:grid-cols-5 gap-6 md:h-[80px]">
         {summaryData?.map((value, index) => (
           <div
             key={index}
             className="bg-white rounded-2xl  py-0 px-6 flex items-center justify-start gap-4"
           >
-            <div className="w-20 h-20 rounded-full bg-[#fcf5f2] flex items-center justify-center">
+            <div className="w-16 h-16 rounded-full bg-[#fcf5f2] flex items-center justify-center">
               {value?.icon}
             </div>
             <div className="flex flex-col items-start">
               <h2 className="text-center text-2xl text-base ">
                 {value?.title}
               </h2>
-              <h3 className="text-center   text-[32px] font-semibold">
+              <h3 className="text-center text-2xl font-semibold">
                 {value?.price}
               </h3>
             </div>
@@ -135,30 +135,27 @@ const Home = () => {
         ))}
       </div>
 
-      <div className="flex w-full items-center gap-6 mt-6">
-        <div className="w-5/12 bg-white border rounded-2xl py-3 flex flex-col justify-center">
+      <div className="md:flex w-full items-center gap-6 mt-6">
+        <div className="md:w-5/12 bg-white border rounded-2xl py-3 flex flex-col justify-center">
           <p className="text-base font-semibold px-4 py-">User Activity</p>
           <SalesTrackingChart />
         </div>
-        <div className="w-7/12 flex gap-1">
-          <div className="w-[60%] border bg-white rounded-2xl pb-3 h-full flex flex-col justify-center">
+        <div className="md:w-7/12 md:flex gap-4">
+          <div className="md:w-[60%] border bg-white rounded-2xl pb-3 h-full md:flex flex-col justify-center">
             <p className="text-base font-semibold px-10 py-4">Vendors</p>
-            <div className="flex flex-col px-10 gap-5">
-              {vendors?.map((value, index) => (
+            <div className="md:flex flex-col px-10 gap-5">
+              {vendors?.slice(0, 5).map((value, index) => (
                 <div key={index} className="flex items-center gap-4">
-                  {/* Vendor Profile Image */}
                   <img
                     className="w-10 h-10 rounded-full"
                     src={value?.profileImage}
                     alt={value?.name}
                   />
 
-                  {/* Vendor Name */}
                   <h1 className="text-sm font-medium w-32 truncate">
                     {value?.name}
                   </h1>
 
-                  {/* Progress Bar */}
                   <div className="flex items-center flex-1">
                     <div className="w-full bg-[#FFF2DC] rounded-full h-2.5">
                       <div
@@ -168,17 +165,15 @@ const Home = () => {
                     </div>
                   </div>
 
-                  {/* Percentage */}
                   <p className="text-sm font-medium">{value?.percent}%</p>
                 </div>
               ))}
             </div>
           </div>
-          <div className="w-[40%] border bg-white p-4 flex flex-col items-center">
+          <div className="md:w-[40%] border rounded-2xl bg-white p-4 flex flex-col items-center">
             <h1 className="text-lg font-semibold mb-4">Vendor Summary</h1>
 
             <div className="relative w-44 h-44 mb-6">
-              {/* SVG Progress Circle */}
               <svg
                 className="absolute inset-0 transform -rotate-90"
                 viewBox="0 0 36 36"
@@ -205,7 +200,6 @@ const Home = () => {
                 ></circle>
               </svg>
 
-              {/* Inner Circle */}
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#faf6ef] w-24 h-24 rounded-full flex flex-col items-center justify-center">
                 <span className="text-2xl font-bold">
                   {vendorStats.donePercentage}%
@@ -213,7 +207,6 @@ const Home = () => {
               </div>
             </div>
 
-            {/* Status Counts */}
             <div className="flex items-center gap-6">
               <div className="flex items-center gap-2">
                 <div className="w-4 h-3 rounded-3xl bg-[#F3E524]"></div>
@@ -229,6 +222,15 @@ const Home = () => {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div className="w-full md:flex gap-6">
+        <div className="md:w-5/12 my-6 ">
+          {" "}
+          <RunningOrdersTable />
+        </div>
+        <div className="md:w-7/12 my-6 ">
+          <UserEngagement />
         </div>
       </div>
     </div>

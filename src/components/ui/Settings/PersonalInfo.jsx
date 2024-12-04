@@ -1,23 +1,18 @@
 import React, { useState } from "react";
-import { Button, Input } from "antd";
+import { Button, Input, Form } from "antd";
 import { BiLeftArrowAlt } from "react-icons/bi";
-import { Link } from "react-router-dom";
-import { MdOutlineAddPhotoAlternate } from "react-icons/md";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import { Link } from "react-router-dom";
+import { MdOutlineAddPhotoAlternate } from "react-icons/md";
 
 const PersonalInfo = () => {
-  const [phone, setPhone] = useState(""); // Phone number state
+  const [phone, setPhone] = useState("");
   const [imgURL, setImgURL] = useState(
     "https://avatars.design/wp-content/uploads/2021/02/corporate-avatars-TN-1.jpg"
   );
 
-  const onChangePhone = (phone) => {
-    setPhone(phone);
-    // Update phone state when input changes
-  };
-
-  const onChangeImage = (e) => {
+  const onChange = (e) => {
     const file = e.target.files[0];
     const imgUrl = URL.createObjectURL(file);
     setImgURL(imgUrl);
@@ -31,13 +26,13 @@ const PersonalInfo = () => {
         </span>
         <span>Back</span>
       </Link>
-      <div className="flex bg-white p-10 mt-10 rounded-2xl border gap-10 w-full">
+      <div className="flex gap-10 w-full">
         <div className="w-8/12">
           <div className="mt-4">
             <h1>Name</h1>
             <br />
             <Input
-              className="py-3 bg-gray-100 rounded-xl"
+              className="py-4 bg-gray-100 rounded-xl"
               defaultValue={"John Doe"}
             />
           </div>
@@ -45,7 +40,7 @@ const PersonalInfo = () => {
             <h1>Email</h1>
             <br />
             <Input
-              className="py-3 bg-gray-100 rounded-xl"
+              className="py-4 bg-gray-100 rounded-xl"
               defaultValue={"support@learnova.com"}
             />
           </div>
@@ -53,11 +48,15 @@ const PersonalInfo = () => {
             <h1>Phone</h1>
             <br />
             <PhoneInput
-              country="us"
+              country={"us"}
               value={phone}
-              onChange={setPhone}
-              inputClass="!w-full !px-4 !py-3 !py-5 !ps-12 !border !border-gray-300 !rounded-lg !focus:outline-none !focus:ring-2 !focus:ring-blue-400"
-              containerClass="!w-full"
+              onChange={(phone) => setPhone(phone)} // Make sure this is updating the state
+              inputStyle={{
+                width: "60%",
+                background: "#F3F4F6",
+                padding: "12px",
+                marginLeft: "40px",
+              }}
             />
           </div>
           <Button
@@ -76,9 +75,9 @@ const PersonalInfo = () => {
           </Button>
         </div>
         <div>
-          <div className="flex flex-col items-center gap-10 bg-slate-100 px-20 py-12 rounded-xl justify-center">
+          <div className="flex justify-center">
             <input
-              onChange={onChangeImage}
+              onChange={onChange}
               type="file"
               id="img"
               className="hidden"
@@ -95,10 +94,6 @@ const PersonalInfo = () => {
                 />
               </div>
             </label>
-            <div className="text-center">
-              <h1>Profile</h1>
-              <h1 className="text-xl">Admin</h1>
-            </div>
           </div>
         </div>
       </div>

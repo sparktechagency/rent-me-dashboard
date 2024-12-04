@@ -1,23 +1,17 @@
 import React from "react";
-import AboutMe from "../../components/ui/User/AboutMe";
-import MyChoice from "../../components/ui/User/MyChoice";
-import { ConfigProvider, Tabs } from "antd";
+import { ConfigProvider, Input, Tabs } from "antd";
 import { Link } from "react-router-dom";
 import { BiLeftArrowAlt } from "react-icons/bi";
+import RunningOrderTable from "../../components/ui/Analytics/RunningOrderTable";
 
 const User = () => {
-  const profileItems = [
-    {
-      key: "1",
-      label: <p className="text-[15px] font-medium"> About </p>,
-      children: <AboutMe />,
-    },
-    {
-      key: "2",
-      label: <p className="text-[15px] font-medium">Choices</p>,
-      children: <MyChoice />,
-    },
-  ];
+  const user = {
+    id: "6563",
+    name: "John Doe",
+    email: "john.doe@example.com",
+    status: "Active",
+    imgUrl: "https://www.example.com/path/to/image1.jpg",
+  };
 
   return (
     <div>
@@ -32,46 +26,37 @@ const User = () => {
         </span>{" "}
         <span>Back</span>
       </Link>
-      <div>
-        <div className="flex justify-center items-center">
+      <div className="mt-10">
+        <div className="flex gap-3 items-center ">
           <img
-            src={"https://randomuser.me/api/portraits/men/1.jpg"}
-            alt=""
-            className="h-[200px] w-[350px] rounded-lg"
+            className="rounded-full w-12 h-12"
+            src={
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmtj40PvvTQ1g64pgKZ2oKEk-tqT9rA4CXSA&s"
+            }
+            alt="img"
           />
+          <h1 className=" text-2xl font-bold">{user.name}</h1>
+          <p>User ID#456456 </p>
         </div>
-        <p className="font-semibold text-[24px] text-base py-3 text-center">
-          John Doe
-        </p>
-        <p className="font-medium text-[22px] text-base pb-2 text-center flex items-center justify-center gap-2">
-          <span> 27 yr </span> , <span> New York, USA</span>
-        </p>
-      </div>
-
-      <div className="mb-4  flex justify-center items-center">
-        <div className=" w-4/5">
-          <ConfigProvider
-            theme={{
-              components: {
-                Tabs: {
-                  itemActiveColor: "#007BA5",
-                  itemSelectedColor: "#007BA5",
-                  inkBarColor: "#007BA5",
-                  itemHoverColor: "#007BA5",
-                },
-              },
-            }}
-          >
-            <Tabs defaultActiveKey="1" items={profileItems} />
-          </ConfigProvider>
+        <div className="grid my-10 grid-cols-2 gap-5">
+          <div>
+            <h1>Name</h1> <br /> <Input defaultValue={"John Doe"} />
+          </div>
+          <div>
+            <h1>Business</h1> <br /> <Input defaultValue={"Job"} />
+          </div>
+          <div>
+            <h1>Email</h1> <br />{" "}
+            <Input defaultValue={"john.doe@example.com"} />
+          </div>
+          <div>
+            <h1>Address</h1> <br />{" "}
+            <Input defaultValue={"California Street 4533"} />
+          </div>
         </div>
       </div>
-
-      <div className=" flex items-center justify-center gap-4 ">
-        <button className=" w-[120px] h-[42px] rounded-lg bg-[#DF3232] text-white">
-          {" "}
-          BLOCK{" "}
-        </button>
+      <div>
+        <RunningOrderTable />
       </div>
     </div>
   );
