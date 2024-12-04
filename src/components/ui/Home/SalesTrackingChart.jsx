@@ -49,7 +49,7 @@ const data = [
 
 const SalesTrackingChart = () => {
   return (
-    <ResponsiveContainer width="90%" height={300}>
+    <ResponsiveContainer width="90%" height={230}>
       <BarChart
         data={data}
         margin={{

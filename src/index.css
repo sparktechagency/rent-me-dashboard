@@ -46,8 +46,8 @@
 }
 
 .ant-badge .ant-badge-count {
-  background: #007ba5 !important;
-  color: white !important;
+  background: #ffe133 !important;
+  color: black !important;
 }
 
 .jodit-workplace {
@@ -74,4 +74,17 @@
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #6b5ecc34;
+}
+
+/* pagination style */
+.ant-pagination .ant-pagination-item-active {
+  background-color: #ffe133 !important;
+  border-radius: 100%;
+  border-color: #ffe133;
+  color: black !important;
+}
+
+.ant-pagination-item a {
+  border-radius: 100%;
+  color: black !important;
 }

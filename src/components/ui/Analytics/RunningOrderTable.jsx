@@ -1,6 +1,9 @@
 import { Table } from "antd";
+import { useState } from "react";
 
 const RunningOrderTable = () => {
+  const [pageSize, setPageSize] = useState(5);
+
   const columns = [
     {
       title: "Transaction ID",
@@ -143,7 +146,13 @@ const RunningOrderTable = () => {
       <h1 className="font-bold">Running Orders</h1>
       <Table
         className="bg-white"
-        pagination={false}
+        pagination={{
+          pageSize: pageSize,
+          showSizeChanger: true,
+          pageSizeOptions: ["5", "10", "15"],
+          onShowSizeChange: (current, size) => setPageSize(size),
+          position: ["bottomCenter"],
+        }}
         columns={columns}
         dataSource={data}
       />

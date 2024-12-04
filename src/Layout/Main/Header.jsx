@@ -18,21 +18,21 @@ const Header = () => {
         </Badge>
       </Link>
 
-      <Link to="/profile" className="flex  items-center gap-3">
-        <img
-          style={{
-            clipPath: "circle()",
-            width: 45,
-            height: 45,
-          }}
-          src={src}
-          alt="person-male--v2"
-          className="clip"
-        />
-        <p>
-          {user?.firstName} {user?.lastName}
-        </p>
-      </Link>
+      {/* <Link to="/profile" className="flex  items-center gap-3"> */}
+      <img
+        style={{
+          clipPath: "circle()",
+          width: 45,
+          height: 45,
+        }}
+        src={src}
+        alt="person-male--v2"
+        className="clip"
+      />
+      <p>
+        {user?.firstName} {user?.lastName}
+      </p>
+      {/* </Link> */}
     </div>
   );
 };

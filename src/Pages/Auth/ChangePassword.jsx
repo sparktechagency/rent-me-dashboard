@@ -51,7 +51,7 @@ const ChangePassword = () => {
   };
 
   return (
-    <div>
+    <div className="bg-white p-5 rounded-2xl h-[700px]">
       <Form
         layout="vertical"
         form={form}

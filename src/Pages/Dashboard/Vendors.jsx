@@ -72,7 +72,7 @@ const data = [
   },
 ];
 
-const Users = () => {
+const Vendors = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const navigate = useNavigate();
   const [pageSize, setPageSize] = useState(10);
@@ -102,6 +102,12 @@ const Users = () => {
       title: "Email",
       dataIndex: "email",
       key: "email",
+    },
+    {
+      title: "Total Earnings",
+      dataIndex: "totalEarning",
+      key: "totalEarning",
+      align: "center",
     },
     {
       title: "Status",
@@ -203,4 +209,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default Vendors;

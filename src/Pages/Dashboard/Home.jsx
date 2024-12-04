@@ -141,13 +141,13 @@ const Home = () => {
           <SalesTrackingChart />
         </div>
         <div className="md:w-7/12 md:flex gap-4">
-          <div className="md:w-[60%] border bg-white rounded-2xl pb-3 h-full md:flex flex-col justify-center">
+          <div className="md:w-[60%] border bg-white rounded-2xl pb-5 h-full md:flex flex-col justify-center">
             <p className="text-base font-semibold px-10 py-4">Vendors</p>
-            <div className="md:flex flex-col px-10 gap-5">
+            <div className="md:flex flex-col px-10 gap-4">
               {vendors?.slice(0, 5).map((value, index) => (
                 <div key={index} className="flex items-center gap-4">
                   <img
-                    className="w-10 h-10 rounded-full"
+                    className="w-7 h-7 rounded-full"
                     src={value?.profileImage}
                     alt={value?.name}
                   />
@@ -173,7 +173,7 @@ const Home = () => {
           <div className="md:w-[40%] border rounded-2xl bg-white p-4 flex flex-col items-center">
             <h1 className="text-lg font-semibold mb-4">Vendor Summary</h1>
 
-            <div className="relative w-44 h-44 mb-6">
+            <div className="relative w-40 h-40 mb-6">
               <svg
                 className="absolute inset-0 transform -rotate-90"
                 viewBox="0 0 36 36"

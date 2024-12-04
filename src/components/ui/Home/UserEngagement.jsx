@@ -26,7 +26,7 @@ export default class UserEngagement extends PureComponent {
 
   render() {
     return (
-      <div className="bg-white p-5 w-[100%] h-[400px] rounded-2xl border">
+      <div className="bg-white p-5 w-[100%] h-[300px] rounded-2xl border">
         <h2 className=" font-bold">User Engagement</h2>
         <ResponsiveContainer width="100%" height="100%">
           <LineChart

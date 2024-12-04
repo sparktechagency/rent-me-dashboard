@@ -52,9 +52,9 @@ const Sidebar = () => {
       label: <Link to="/users">Users</Link>,
     },
     {
-      key: "/vendor",
+      key: "/vendors",
       icon: <PiUserPlus size={24} />,
-      label: <Link to="/vendor">Vendor</Link>,
+      label: <Link to="/vendors">Vendors</Link>,
     },
     {
       key: "/promotion",

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Table, Tag, Space, Button, Avatar } from "antd";
 
 const approveUsers = [
@@ -90,14 +90,22 @@ const columns = [
 ];
 
 const ApproveUsersTable = () => {
+  const [pageSize, setPageSize] = useState(5);
+
   return (
     <div className="p-5 bg-white rounded-2xl my-5">
       <h1 className="font-bold text-xl">Approve User</h1>
       <Table
         dataSource={approveUsers}
         columns={columns}
-        pagination={false}
         rowKey="id"
+        pagination={{
+          pageSize: pageSize,
+          showSizeChanger: true,
+          pageSizeOptions: ["5", "10", "15"],
+          onShowSizeChange: (current, size) => setPageSize(size),
+          position: ["bottomCenter"],
+        }}
       />
     </div>
   );

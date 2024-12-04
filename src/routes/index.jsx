@@ -31,7 +31,7 @@ import PersonalInfo from "../components/ui/Settings/PersonalInfo";
 import UserProfile from "../Pages/Dashboard/AdminProfile/UserProfile";
 import TermsAndCondition from "../Pages/Dashboard/TermsAndCondition";
 import TermsAndConditions from "../components/ui/Settings/TermsAndConditions";
-import Vendors from "../components/ui/Vendors";
+import Vendors from "../Pages/Dashboard/Vendors";
 
 const router = createBrowserRouter([
   {
@@ -56,6 +56,14 @@ const router = createBrowserRouter([
         element: <Users />,
       },
       {
+        path: "/vendors",
+        element: <Vendors />,
+      },
+      {
+        path: "/vendor/:id",
+        element: <Vendors />,
+      },
+      {
         path: "/promotion",
         element: <Promotion />,
       },
@@ -67,10 +75,7 @@ const router = createBrowserRouter([
         path: "/change-password",
         element: <ChangePassword />,
       },
-      {
-        path: "/vendor",
-        element: <Vendors />,
-      },
+
       {
         path: "/admin",
         element: <Admin />,
@@ -94,12 +99,12 @@ const router = createBrowserRouter([
       },
       {
         path: "/terms-and-condition",
-        element: <TermsAndConditions />,
-      },
-      {
-        path: "/edit-terms-and-conditions",
         element: <TermsAndCondition />,
       },
+      // {
+      //   path: "/edit-terms-and-conditions",
+      //   element: <TermsAndCondition />,
+      // },
       {
         path: "/press",
         element: <Press />,
