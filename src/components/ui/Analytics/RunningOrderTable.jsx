@@ -141,7 +141,12 @@ const RunningOrderTable = () => {
   return (
     <div className="">
       <h1 className="font-bold">Running Orders</h1>
-      <Table className="bg-white" columns={columns} dataSource={data} />
+      <Table
+        className="bg-white"
+        pagination={false}
+        columns={columns}
+        dataSource={data}
+      />
     </div>
   );
 };
