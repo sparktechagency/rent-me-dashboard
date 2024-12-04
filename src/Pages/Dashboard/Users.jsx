@@ -199,6 +199,7 @@ const Users = () => {
       }}
       columns={columns}
       dataSource={data}
+      rowKey={(record) => record.id}
     />
   );
 };

@@ -205,6 +205,7 @@ const Vendors = () => {
       }}
       columns={columns}
       dataSource={data}
+      rowKey={(record) => record.id}
     />
   );
 };

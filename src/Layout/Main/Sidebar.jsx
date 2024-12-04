@@ -107,11 +107,11 @@ const Sidebar = () => {
         },
       ],
     },
-    // {
-    //   key: "/logout",
-    //   icon: <IoIosLogOut size={24} />,
-    //   label: <p onClick={handleLogout}>Logout</p>,
-    // },
+    {
+      key: "/logout",
+      icon: <IoIosLogOut size={24} />,
+      label: <p onClick={handleLogout}>Logout</p>,
+    },
   ];
 
   useEffect(() => {
