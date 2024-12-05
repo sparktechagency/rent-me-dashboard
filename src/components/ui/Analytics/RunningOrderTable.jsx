@@ -1,77 +1,8 @@
-import { Table } from "antd";
+import { Table, Input } from "antd";
 import { useState } from "react";
+import { useOrdersQuery } from "../../../redux/apiSlices/orderSlice";
 
 const RunningOrderTable = () => {
-  const [pageSize, setPageSize] = useState(5);
-
-  const columns = [
-    {
-      title: "Transaction ID",
-      dataIndex: "trxId",
-      key: "trxId",
-      render: (text) => <a>{text}</a>,
-      width: 150,
-    },
-    {
-      title: "Customer ID",
-      dataIndex: "customerId",
-      key: "customerId",
-      width: 150,
-    },
-    {
-      title: "Vendor ID",
-      dataIndex: "vendorId",
-      key: "vendorId",
-      width: 150,
-    },
-    {
-      title: "Package",
-      dataIndex: "package",
-      key: "package",
-      width: 150,
-    },
-    {
-      title: "Order ID",
-      dataIndex: "orderId",
-      key: "orderId",
-      width: 150,
-    },
-    {
-      title: "Order Date",
-      dataIndex: "orderDate",
-      key: "orderDate",
-      width: 150,
-    },
-    {
-      title: "Price",
-      dataIndex: "price",
-      key: "price",
-      width: 120,
-    },
-    {
-      title: "Order Status",
-      dataIndex: "orderStatus",
-      key: "orderStatus",
-      width: 150,
-      render: (status) => {
-        let color;
-        if (status === "Delivered") {
-          color = "green";
-        } else if (status === "Pending") {
-          color = "orange";
-        } else if (status === "Shipped") {
-          color = "blue";
-        } else if (status === "Processing") {
-          color = "yellow";
-        } else {
-          color = "black";
-        }
-
-        return <span style={{ color }}>{status}</span>;
-      },
-    },
-  ];
-
   const data = [
     {
       key: "1",
@@ -141,9 +72,108 @@ const RunningOrderTable = () => {
     },
   ];
 
+  // const { data = [], error, isLoading } = useOrdersQuery();
+
+  // if (isLoading) return <div>Loading...</div>;
+  // if (error) return <div>Error fetching orders: {error.message}</div>;
+
+  const [pageSize, setPageSize] = useState(5);
+  const [searchText, setSearchText] = useState("");
+  const [filteredData, setFilteredData] = useState(data); // Initialize filteredData with data
+
+  const handleSearch = (e) => {
+    const value = e.target.value.toLowerCase();
+    setSearchText(value);
+
+    // Filter data based on the search text
+    const filtered = data.filter((item) =>
+      Object.values(item).some((field) =>
+        String(field).toLowerCase().includes(value)
+      )
+    );
+    setFilteredData(filtered);
+  };
+
+  const columns = [
+    {
+      title: "Transaction ID",
+      dataIndex: "trxId",
+      key: "trxId",
+      render: (text) => <a>{text}</a>,
+      width: 150,
+    },
+    {
+      title: "Customer ID",
+      dataIndex: "customerId",
+      key: "customerId",
+      width: 150,
+    },
+    {
+      title: "Vendor ID",
+      dataIndex: "vendorId",
+      key: "vendorId",
+      width: 150,
+    },
+    {
+      title: "Package",
+      dataIndex: "package",
+      key: "package",
+      width: 150,
+    },
+    {
+      title: "Order ID",
+      dataIndex: "orderId",
+      key: "orderId",
+      width: 150,
+    },
+    {
+      title: "Order Date",
+      dataIndex: "orderDate",
+      key: "orderDate",
+      width: 150,
+    },
+    {
+      title: "Price",
+      dataIndex: "price",
+      key: "price",
+      width: 120,
+    },
+    {
+      title: "Order Status",
+      dataIndex: "orderStatus",
+      key: "orderStatus",
+      width: 150,
+      render: (status) => {
+        let color;
+        if (status === "Delivered") {
+          color = "green";
+        } else if (status === "Pending") {
+          color = "orange";
+        } else if (status === "Shipped") {
+          color = "blue";
+        } else if (status === "Processing") {
+          color = "yellow";
+        } else {
+          color = "black";
+        }
+
+        return <span style={{ color }}>{status}</span>;
+      },
+    },
+  ];
+
   return (
-    <div className="">
-      <h1 className="font-bold">Running Orders</h1>
+    <div className="bg-white p-3 rounded-2xl">
+      <div className="flex items-center justify-between">
+        <h1 className="font-bold">Running Orders</h1>
+        {/* Search Bar */}
+        <Input
+          placeholder="Search orders"
+          value={searchText}
+          onChange={handleSearch}
+          className="mb-4 w-[50%]"
+        />
+      </div>
       <Table
         className="bg-white"
         pagination={{
@@ -154,7 +184,7 @@ const RunningOrderTable = () => {
           position: ["bottomCenter"],
         }}
         columns={columns}
-        dataSource={data}
+        dataSource={filteredData}
       />
     </div>
   );

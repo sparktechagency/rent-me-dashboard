@@ -10,15 +10,17 @@ const TermsAndCondition = () => {
       "Tradcouples Matchmaking Services stands at the forefront of sophisticated matchmaking, where accomplished individuals can make exceptional connections. Here you can find women of your choice by sharing your thoughts and opinions You deserve nothing less than extraordinary – find someone born for you.",
   };
 
-  const termsDataSave = async () => {};
+  const termsDataSave = async () => {
+    console.log(content);
+  };
 
   useEffect(() => {
-    setContent(termsAndCondition?.description);
-  }, [termsAndCondition]);
+    setContent(content);
+  }, []);
 
   return (
     <div>
-      <Title className="mb-4">Terms and Condition</Title>
+      <Title className="mb-4">Terms and Conditions</Title>
       <JoditEditor
         ref={editor}
         value={content}

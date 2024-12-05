@@ -9,8 +9,6 @@ const ChangePassword = () => {
   const [conPassError, setConPassError] = useState("");
   const [form] = Form.useForm();
 
-  form.setFieldsValue({});
-
   const validatePasswordChange = (values) => {
     let errors = {};
 
@@ -32,16 +30,17 @@ const ChangePassword = () => {
   };
 
   const onFinish = async (values) => {
+    console.log(values);
     const errors = validatePasswordChange(values);
 
     if (Object.keys(errors).length === 0) {
       try {
         await changePassword({ ...values })
           .unwrap()
-          .then(({ status, message, token }) => {
+          .then(({ status, message }) => {
             if (status) {
               toast.success(message);
-              form.resetFields();
+              form.resetFields(); // Reset form fields after successful submission
             }
           });
       } catch (error) {
@@ -54,7 +53,7 @@ const ChangePassword = () => {
     <div className="bg-white p-5 rounded-2xl h-[700px]">
       <Form
         layout="vertical"
-        form={form}
+        form={form} // Connect the form instance
         onFinish={onFinish}
         className="w-[50%] mx-auto mt-20"
       >
@@ -88,7 +87,7 @@ const ChangePassword = () => {
         >
           <Input.Password
             style={{ background: "transparent" }}
-            placeholder="Enter current password"
+            placeholder="Enter new password"
             className="h-12 bg-transparent hover:bg-transparent focus:bg-transparent placeholder:text-gray-500"
           />
         </Form.Item>
@@ -111,7 +110,7 @@ const ChangePassword = () => {
         >
           <Input.Password
             style={{ background: "transparent" }}
-            placeholder="Enter current password"
+            placeholder="Enter confirm password"
             className="h-12 bg-transparent hover:bg-transparent focus:bg-transparent placeholder:text-gray-500"
           />
         </Form.Item>
@@ -139,7 +138,7 @@ const ChangePassword = () => {
               background: "#FFD900",
               color: "black",
             }}
-            className="roboto-medium  text-sm leading-4"
+            className="roboto-medium text-sm leading-4"
           >
             {isLoading ? "Changing" : "Change Password"}
           </Button>

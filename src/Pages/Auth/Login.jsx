@@ -2,18 +2,35 @@ import { Checkbox, Form, Input } from "antd";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import FormItem from "../../components/common/FormItem";
+import { useLoginMutation } from "../../redux/apiSlices/authSlice";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [isAgree, setIsAgree] = useState(false); // Track checkbox state
+  const [rememberMe, setRememberMe] = useState(false); // Track checkbox state
 
-  const onFinish = (values) => {
-    console.log("Form Values:", values);
-    navigate("/");
+  const [login] = useLoginMutation();
+
+  const onFinish = async (values) => {
+    try {
+      const response = await login(values).unwrap(); // Call RTK Query's login mutation
+      const { accessToken } = response?.data;
+
+      if (rememberMe) {
+        localStorage.setItem("authToken", accessToken); // Store token in localStorage
+      } else {
+        sessionStorage.setItem("authToken", accessToken); // Store token in sessionStorage
+      }
+
+      navigate("/");
+      toast.success("Login successful!");
+    } catch (error) {
+      console.error("Login failed:", error); // Handle login error
+    }
   };
 
   const onCheckboxChange = (e) => {
-    setIsAgree(e.target.checked); // Update checkbox state
+    setRememberMe(e.target.checked); // Update checkbox state
   };
 
   return (
@@ -26,7 +43,7 @@ const Login = () => {
         onFinish={onFinish}
         layout="vertical"
         initialValues={{
-          agree: false, // Default state for the checkbox
+          remember: false, // Default state for the checkbox
         }}
       >
         {/* Email Field */}
@@ -43,12 +60,7 @@ const Login = () => {
         <Form.Item
           name="password"
           label={<p>Password</p>}
-          rules={[
-            {
-              required: true,
-              message: "Please input your Password!",
-            },
-          ]}
+          rules={[{ required: true, message: "Please input your password!" }]}
         >
           <Input.Password
             placeholder="Enter your password"
@@ -61,32 +73,28 @@ const Login = () => {
           />
         </Form.Item>
 
-        {/* Terms and Conditions Checkbox */}
-        <Form.Item
-          name="agree"
-          valuePropName="checked"
-          style={{ marginBottom: 0 }}
-          rules={[
-            {
-              validator: (_, value) =>
-                value
-                  ? Promise.resolve()
-                  : Promise.reject(
-                      "You must agree with the terms and conditions!"
-                    ),
-            },
-          ]}
-        >
-          <Checkbox onChange={onCheckboxChange} className="text-sm">
-            I agree with the Terms and Conditions.
-          </Checkbox>
+        {/* Remember Me and Forgot Password */}
+        <Form.Item style={{ marginBottom: 0 }}>
+          <div className="flex justify-between items-center">
+            {/* Remember Me Checkbox */}
+            <Checkbox onChange={onCheckboxChange} className="text-sm">
+              Remember Me
+            </Checkbox>
+
+            {/* Forgot Password Link */}
+            <a
+              href="/auth/forgot-password"
+              className="text-sm text-blue-500 hover:text-blue-700"
+            >
+              Forgot Password?
+            </a>
+          </div>
         </Form.Item>
 
         {/* Submit Button */}
         <Form.Item style={{ marginBottom: 0 }}>
           <button
             type="submit"
-            disabled={!isAgree} // Disable button if checkbox is not checked
             style={{
               width: "100%",
               height: 45,
@@ -94,11 +102,7 @@ const Login = () => {
               fontSize: 18,
               marginTop: 20,
             }}
-            className={`flex items-center justify-center ${
-              isAgree
-                ? "bg-[#ffd900] text-black"
-                : "bg-gray-300 text-gray-500 cursor-not-allowed"
-            } rounded-lg`}
+            className={`flex items-center justify-center bg-[#ffd900] text-black rounded-lg`}
           >
             Sign in
           </button>

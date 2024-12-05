@@ -11,11 +11,13 @@ const PrivacyPolicy = () => {
       "Tradcouples Matchmaking Services stands at the forefront of sophisticated matchmaking, where accomplished individuals can make exceptional connections. Here you can find women of your choice by sharing your thoughts and opinions You deserve nothing less than extraordinary – find someone born for you.",
   };
 
-  const privacyDataSave = async () => {};
+  const privacyDataSave = async () => {
+    console.log(content);
+  };
 
   useEffect(() => {
-    setContent(privacyPolicy?.description);
-  }, [privacyPolicy]);
+    setContent(content);
+  }, []);
 
   return (
     <div>
