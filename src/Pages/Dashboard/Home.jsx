@@ -12,6 +12,7 @@ import { LuPlaySquare } from "react-icons/lu";
 import RunningOrdersTable from "../../components/ui/Home/RunningOrdersTable";
 
 import UserEngagement from "../../components/ui/Home/UserEngagement";
+import GeneralStateSection from "../../components/ui/Home/GeneralStateSection";
 
 const Home = () => {
   const summaryData = [
@@ -114,30 +115,12 @@ const Home = () => {
 
   return (
     <div>
-      <div className="grid md:grid-cols-5 gap-6 md:h-[80px]">
-        {summaryData?.map((value, index) => (
-          <div
-            key={index}
-            className="bg-white rounded-2xl  py-0 px-6 flex items-center justify-start gap-4"
-          >
-            <div className="w-16 h-16 rounded-full bg-[#fcf5f2] flex items-center justify-center">
-              {value?.icon}
-            </div>
-            <div className="flex flex-col items-start">
-              <h2 className="text-center text-2xl text-base ">
-                {value?.title}
-              </h2>
-              <h3 className="text-center text-2xl font-semibold">
-                {value?.price}
-              </h3>
-            </div>
-          </div>
-        ))}
-      </div>
-
+      <GeneralStateSection />
       <div className="md:flex w-full items-center gap-6 mt-6">
         <div className="md:w-5/12 bg-white border rounded-2xl py-3 flex flex-col justify-center">
-          <p className="text-base font-semibold px-4 py-">User Activity</p>
+          <p className="text-base font-semibold px-4 py-">
+            Sales and Revenue Tracking
+          </p>
           <SalesTrackingChart />
         </div>
         <div className="md:w-7/12 md:flex gap-4">

@@ -1,76 +1,16 @@
 import React, { useState } from "react";
 import { Table, Button, Space, Avatar } from "antd";
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import {
+  useUsersQuery,
+  useVendorsQuery,
+} from "../../redux/apiSlices/userSlice";
+import moment from "moment";
+import { FaStar } from "react-icons/fa6";
 
 // Actions
 
 // Example data based on your `users` array with imgUrl added
-const data = [
-  {
-    id: "6563",
-    name: "John Doe",
-    email: "john.doe@example.com",
-    status: "Active",
-    imgUrl: "https://randomuser.me/api/portraits/men/1.jpg",
-    totalEarning: 5000,
-  },
-  {
-    id: "6564",
-    name: "Jane Smith",
-    email: "jane.smith@example.com",
-    status: "Inactive",
-    imgUrl: "https://randomuser.me/api/portraits/women/1.jpg",
-    totalEarning: 3500,
-  },
-  {
-    id: "6565",
-    name: "Michael Johnson",
-    email: "michael.johnson@example.com",
-    status: "Active",
-    imgUrl: "https://randomuser.me/api/portraits/men/2.jpg",
-    totalEarning: 6000,
-  },
-  {
-    id: "6566",
-    name: "Emily Davis",
-    email: "emily.davis@example.com",
-    status: "Pending",
-    imgUrl: "https://randomuser.me/api/portraits/women/2.jpg",
-    totalEarning: 4000,
-  },
-  {
-    id: "6567",
-    name: "David Williams",
-    email: "david.williams@example.com",
-    status: "Active",
-    imgUrl: "https://randomuser.me/api/portraits/men/3.jpg",
-    totalEarning: 5500,
-  },
-  {
-    id: "6568",
-    name: "Sarah Brown",
-    email: "sarah.brown@example.com",
-    status: "Inactive",
-    imgUrl: "https://randomuser.me/api/portraits/women/3.jpg",
-    totalEarning: 4500,
-  },
-  {
-    id: "6569",
-    name: "James Taylor",
-    email: "james.taylor@example.com",
-    status: "Active",
-    imgUrl: "https://randomuser.me/api/portraits/men/4.jpg",
-    totalEarning: 7000,
-  },
-  {
-    id: "6570",
-    name: "Jessica Wilson",
-    email: "jessica.wilson@example.com",
-    status: "Pending",
-    imgUrl: "https://randomuser.me/api/portraits/women/4.jpg",
-    totalEarning: 3800,
-  },
-];
 
 const Vendors = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -80,6 +20,16 @@ const Vendors = () => {
     console.log("selectedRowKeys changed: ", newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
   };
+
+  const { data: vendors, isLoading } = useVendorsQuery();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  const data = vendors?.data;
+
+  console.log(data);
 
   const columns = [
     {
@@ -91,12 +41,18 @@ const Vendors = () => {
       title: "Name",
       dataIndex: "name",
       key: "name",
-      render: (text, record) => (
-        <Space>
-          <Avatar src={record.imgUrl} alt={text} size="large" />
-          <span>{text}</span>
-        </Space>
-      ),
+      render: (text, record) => {
+        // Extract name from the appropriate object
+        const name = record?.name || "Unknown";
+        const imgUrl = record.profileImg;
+
+        return (
+          <Space>
+            <Avatar src={imgUrl} alt={name} size="large" />
+            <span>{name}</span>
+          </Space>
+        );
+      },
     },
     {
       title: "Email",
@@ -104,11 +60,44 @@ const Vendors = () => {
       key: "email",
     },
     {
-      title: "Total Earnings",
-      dataIndex: "totalEarning",
-      key: "totalEarning",
-      align: "center",
+      title: "Address",
+      key: "address",
+      render: (record) => {
+        // Extract city and other address details
+        const { city, street, state, zip, country } = record.address || {};
+        return (
+          <span>
+            {city ? `${street}, ${city}, ${state}, ${zip}, ${country}` : "N/A"}
+          </span>
+        );
+      },
     },
+    {
+      title: "Vendor Since",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (date) => moment(date).format("Do MMM, YYYY"),
+    },
+    {
+      title: "Total Earnings",
+      dataIndex: "totalReviews",
+      key: "totalReviews",
+      align: "center",
+      sorter: (a, b) => a.totalReviews - b.totalReviews,
+    },
+    {
+      title: "Rating",
+      dataIndex: "rating",
+      key: "rating",
+      sorter: (a, b) => a.rating - b.rating,
+      render: (rating) => (
+        <span className="flex items-center jus gap-1">
+          <FaStar />
+          <p>{rating}</p>
+        </span>
+      ),
+    },
+
     {
       title: "Status",
       dataIndex: "status",
@@ -135,14 +124,14 @@ const Vendors = () => {
     {
       title: "Actions",
       key: "actions",
+      align: "center",
       render: (text, record) => (
         <Space>
-          <Button
-            className="bg-[#FFF4E3] text-[#F3B806] border-none"
-            onClick={() => handleDetails(record.id)}
-          >
-            Details
-          </Button>
+          <Link to={`/user/profile/${record.id}`}>
+            <Button className="bg-[#FFF4E3] text-[#F3B806] border-none">
+              Details
+            </Button>
+          </Link>
 
           <Button
             className="border border-red-600 text-red-700 "

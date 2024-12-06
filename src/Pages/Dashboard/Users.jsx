@@ -1,81 +1,23 @@
 import React, { useState } from "react";
 import { Table, Button, Space, Avatar } from "antd";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-
-// Actions
-
-// Example data based on your `users` array with imgUrl added
-const data = [
-  {
-    id: "6563",
-    name: "John Doe",
-    email: "john.doe@example.com",
-    status: "Active",
-    imgUrl: "https://randomuser.me/api/portraits/men/1.jpg",
-    totalEarning: 5000,
-  },
-  {
-    id: "6564",
-    name: "Jane Smith",
-    email: "jane.smith@example.com",
-    status: "Inactive",
-    imgUrl: "https://randomuser.me/api/portraits/women/1.jpg",
-    totalEarning: 3500,
-  },
-  {
-    id: "6565",
-    name: "Michael Johnson",
-    email: "michael.johnson@example.com",
-    status: "Active",
-    imgUrl: "https://randomuser.me/api/portraits/men/2.jpg",
-    totalEarning: 6000,
-  },
-  {
-    id: "6566",
-    name: "Emily Davis",
-    email: "emily.davis@example.com",
-    status: "Pending",
-    imgUrl: "https://randomuser.me/api/portraits/women/2.jpg",
-    totalEarning: 4000,
-  },
-  {
-    id: "6567",
-    name: "David Williams",
-    email: "david.williams@example.com",
-    status: "Active",
-    imgUrl: "https://randomuser.me/api/portraits/men/3.jpg",
-    totalEarning: 5500,
-  },
-  {
-    id: "6568",
-    name: "Sarah Brown",
-    email: "sarah.brown@example.com",
-    status: "Inactive",
-    imgUrl: "https://randomuser.me/api/portraits/women/3.jpg",
-    totalEarning: 4500,
-  },
-  {
-    id: "6569",
-    name: "James Taylor",
-    email: "james.taylor@example.com",
-    status: "Active",
-    imgUrl: "https://randomuser.me/api/portraits/men/4.jpg",
-    totalEarning: 7000,
-  },
-  {
-    id: "6570",
-    name: "Jessica Wilson",
-    email: "jessica.wilson@example.com",
-    status: "Pending",
-    imgUrl: "https://randomuser.me/api/portraits/women/4.jpg",
-    totalEarning: 3800,
-  },
-];
+import { useUsersQuery } from "../../redux/apiSlices/userSlice";
 
 const Users = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const navigate = useNavigate();
   const [pageSize, setPageSize] = useState(10);
+
+  const { data: users, isLoading } = useUsersQuery();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  const data = users?.data?.data;
+
+  console.log(data);
+
   const onSelectChange = (newSelectedRowKeys) => {
     console.log("selectedRowKeys changed: ", newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
@@ -91,17 +33,36 @@ const Users = () => {
       title: "Name",
       dataIndex: "name",
       key: "name",
-      render: (text, record) => (
-        <Space>
-          <Avatar src={record.imgUrl} alt={text} size="large" />
-          <span>{text}</span>
-        </Space>
-      ),
+      render: (text, record) => {
+        // Extract name from the appropriate object
+        const name =
+          record?.admin?.name ||
+          record?.customer?.name ||
+          record?.vendor?.name ||
+          "Unknown";
+        const imgUrl =
+          record?.admin?.imgUrl ||
+          record?.customer?.imgUrl ||
+          record?.vendor?.imgUrl;
+
+        return (
+          <Space>
+            <Avatar src={imgUrl} alt={name} size="large" />
+            <span>{name}</span>
+          </Space>
+        );
+      },
     },
+
     {
       title: "Email",
       dataIndex: "email",
       key: "email",
+    },
+    {
+      title: "Role",
+      dataIndex: "role",
+      key: "role",
     },
     {
       title: "Status",
@@ -131,17 +92,13 @@ const Users = () => {
       key: "actions",
       render: (text, record) => (
         <Space>
-          <Button
-            className="bg-[#FFF4E3] text-[#F3B806] border-none"
-            onClick={() => handleDetails(record.id)}
-          >
-            Details
-          </Button>
+          <Link to={`/user/profile/${record.id}`}>
+            <Button className="bg-[#FFF4E3] text-[#F3B806] border-none">
+              Details
+            </Button>
+          </Link>
 
-          <Button
-            className="border border-red-600 text-red-700 "
-            onClick={() => handleRestrict(record.id)}
-          >
+          <Button className="border border-red-600 text-red-700 ">
             Restrict
           </Button>
         </Space>
@@ -177,14 +134,6 @@ const Users = () => {
         },
       },
     ],
-  };
-
-  const handleDetails = (id) => {
-    navigate(`/user/${id}`);
-  };
-
-  const handleRestrict = (id) => {
-    console.log(`Restrict clicked for user with id: ${id}`);
   };
 
   return (

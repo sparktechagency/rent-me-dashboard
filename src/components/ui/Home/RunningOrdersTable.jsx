@@ -1,6 +1,15 @@
 import { Button, Space, Table, Tag } from "antd";
 import { Link } from "react-router-dom";
+import { useOrdersQuery } from "../../../redux/apiSlices/orderSlice";
+import { useEffect, useState } from "react";
+import moment from "moment";
 const RunningOrdersTable = () => {
+  const [filteredData, setFilteredData] = useState([]);
+  const { data: orders, isLoading } = useOrdersQuery();
+  const data = orders?.data;
+
+  console.log(data);
+
   const runningOrders = [
     { orderNo: "4566626", budget: "486", userName: "Bryan Chris" },
     { orderNo: "4566627", budget: "512", userName: "Alex Johnson" },
@@ -11,28 +20,29 @@ const RunningOrdersTable = () => {
   const columns = [
     {
       title: "Order Number",
-      dataIndex: "orderNo",
-      key: "orderNo",
+      dataIndex: "orderId",
+      key: "orderId",
     },
     {
       title: "Budget",
-      dataIndex: "budget",
-      key: "budget",
+      dataIndex: "amount",
+      key: "amount",
       render: (text) => `$${text}`,
     },
     {
-      title: "User Name",
-      dataIndex: "userName",
-      key: "userName",
+      title: "Service",
+      dataIndex: "preference",
+      key: "preference",
     },
     {
-      title: "Order Details",
-      dataIndex: "orderDetails",
-      key: "orderDetails",
+      title: "Order Date",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (date) => moment(date).format("Do MMM, YYYY"),
     },
   ];
 
-  const data = runningOrders.slice(0, 3).map((order, index) => ({
+  const data2 = runningOrders.slice(0, 3).map((order, index) => ({
     key: index.toString(),
     orderNo: order.orderNo,
     budget: order.budget,

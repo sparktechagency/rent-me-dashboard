@@ -13,6 +13,7 @@ const Login = () => {
 
   const onFinish = async (values) => {
     try {
+      console.log(values);
       const response = await login(values).unwrap(); // Call RTK Query's login mutation
       const { accessToken } = response?.data;
 

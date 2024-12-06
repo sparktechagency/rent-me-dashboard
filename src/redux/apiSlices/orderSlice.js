@@ -1,16 +1,13 @@
 import { api } from "../api/baseApi";
 
 const orderSlice = api.injectEndpoints({
-  endpoints: (build) => ({
-    orders: build.query({
+  endpoints: (builder) => ({
+    orders: builder.query({
       query: () => {
         return {
           method: "GET",
-          url: "/dashboard/orders",
+          url: "/order",
         };
-      },
-      transformResponse: ({ orders }) => {
-        return orders;
       },
     }),
   }),

@@ -48,7 +48,7 @@ const router = createBrowserRouter([
         element: <Analytics />,
       },
       {
-        path: "/user/:id",
+        path: "/user/profile/:id",
         element: <User />,
       },
       {
@@ -59,10 +59,7 @@ const router = createBrowserRouter([
         path: "/vendors",
         element: <Vendors />,
       },
-      {
-        path: "/vendor/:id",
-        element: <Vendors />,
-      },
+
       {
         path: "/promotion",
         element: <Promotion />,
