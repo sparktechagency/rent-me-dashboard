@@ -41,7 +41,7 @@ const RunningOrderTable = () => {
     setFilteredData(filtered);
   };
 
-  const truncateWithEllipsis = (text, length = 10) =>
+  const truncateWithEllipsis = (text, length = 20) =>
     text.length > length ? `${text.slice(0, length)}...` : text;
 
   const columns = [
@@ -53,34 +53,34 @@ const RunningOrderTable = () => {
     },
 
     {
-      title: "Transaction ID",
-      dataIndex: "packageId",
-      key: "packageId",
-      render: (text) => (
-        <Tooltip title={text}>
-          <span>{truncateWithEllipsis(text)}</span>
-        </Tooltip>
-      ),
-      width: 150,
-    },
-    {
-      title: "Customer ID",
+      title: "Customer Name",
       dataIndex: "customerId",
       key: "customerId",
-      render: (text) => (
-        <Tooltip title={text}>
-          <span>{truncateWithEllipsis(text)}</span>
+      render: (customerId) => (
+        <Tooltip title={customerId?.name}>
+          <span>{truncateWithEllipsis(customerId?.name)}</span>
         </Tooltip>
       ),
       width: 150,
     },
     {
-      title: "Vendor ID",
+      title: "Vendor Name",
       dataIndex: "vendorId",
       key: "vendorId",
-      render: (text) => (
-        <Tooltip title={text}>
-          <span>{truncateWithEllipsis(text)}</span>
+      render: (vendorId) => (
+        <Tooltip title={vendorId?.name}>
+          <span>{truncateWithEllipsis(vendorId?.name)}</span>
+        </Tooltip>
+      ),
+      width: 150,
+    },
+    {
+      title: "Service",
+      dataIndex: "serviceId",
+      key: "serviceId",
+      render: (serviceId) => (
+        <Tooltip title={serviceId?.title}>
+          <span>{truncateWithEllipsis(serviceId?.title)}</span>
         </Tooltip>
       ),
       width: 150,

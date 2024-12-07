@@ -54,7 +54,7 @@ const authSlice = api.injectEndpoints({
       query: (data) => {
         return {
           method: "POST",
-          url: "/auth/reset-password",
+          url: "/auth/change-password",
           body: data,
           headers: {
             Authorization: localStorage.getItem("Authorization"),
@@ -94,6 +94,14 @@ const authSlice = api.injectEndpoints({
         return user;
       },
     }),
+    fetchAdminProfile: builder.query({
+      query: () => {
+        return {
+          method: "GET",
+          url: "/admin/profile",
+        };
+      },
+    }),
   }),
 });
 
@@ -105,4 +113,5 @@ export const {
   useChangePasswordMutation,
   useUpdateProfileMutation,
   useProfileQuery,
+  useFetchAdminProfileQuery,
 } = authSlice;

@@ -1,15 +1,22 @@
 import React from "react";
-import { imageUrl } from "../../redux/api/baseApi";
+
 import { Link } from "react-router-dom";
 import { FaRegBell } from "react-icons/fa6";
 import { Badge } from "antd";
-import { useUser } from "../../provider/User";
+import logo from "../../assets/randomProfile2.jpg";
+import { useFetchAdminProfileQuery } from "../../redux/apiSlices/authSlice";
 
 const Header = () => {
-  const { user } = useUser();
-  const src = user?.image?.startsWith("https")
-    ? user?.image
-    : `${imageUrl}/${user?.image}`;
+  const { data: userData, isLoading } = useFetchAdminProfileQuery(undefined);
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center my-20 text-lg text-cyan-500">
+        Loading...
+      </div>
+    );
+  }
+
   return (
     <div className="flex items-center gap-5 justify-end">
       <Link to="/notification" className="h-fit mt-[10px]">
@@ -25,14 +32,18 @@ const Header = () => {
           width: 45,
           height: 45,
         }}
-        src={src}
+        src={
+          userData?.data?.profileImage
+            ? `${import.meta.env.VITE_BASE_URL}${userData?.data?.profileImage}`
+            : logo
+        }
         alt="person-male--v2"
         className="clip"
       />
-      <p>
-        {user?.firstName} {user?.lastName}
-      </p>
-      {/* </Link> */}
+      <div className="flex flex-col gap-2 p-2">
+        <p>{userData?.data?.name}</p>
+        <p>{userData?.data?.role}</p>
+      </div>
     </div>
   );
 };

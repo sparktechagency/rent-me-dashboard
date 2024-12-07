@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React from "react";
 import {
   LineChart,
   Line,
@@ -12,6 +12,7 @@ import {
   Area,
   ResponsiveContainer,
 } from "recharts";
+import { useOverAllStateQuery } from "../../../redux/apiSlices/dashboardSlice";
 
 const data = [
   { name: "Jan", earning: 4000 },
@@ -23,44 +24,46 @@ const data = [
   { name: "Jul", earning: 2490 },
 ];
 
-export default class UserStatistics extends PureComponent {
-  static demoUrl =
-    "https://codesandbox.io/p/sandbox/synchronized-line-charts-37rhmf";
+const UserStatistics = () => {
+  const { data: overAllState, isLoading } = useOverAllStateQuery();
 
-  render() {
-    return (
-      <div
-        className="bg-white border p-4 rounded-2xl"
-        style={{ width: "100%" }}
-      >
-        <p className="font-bold">Total Earning</p>
-
-        <ResponsiveContainer width="100%" height={200}>
-          <AreaChart
-            width={500}
-            height={200}
-            data={data}
-            syncId="anyId"
-            margin={{
-              top: 10,
-              right: 30,
-              left: 0,
-              bottom: 0,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Area
-              type="monotone"
-              dataKey="earning"
-              stroke="#DE950F"
-              fill="#F3E524"
-            />
-          </AreaChart>
-        </ResponsiveContainer>
-      </div>
-    );
+  if (isLoading) {
+    <h1>Loading...</h1>;
   }
-}
+
+  const chartData = overAllState?.data?.data;
+
+  return (
+    <div className="bg-white border p-4 rounded-2xl" style={{ width: "100%" }}>
+      <p className="font-bold mb-3">User Statistics</p>
+
+      <ResponsiveContainer width="100%" height={200}>
+        <AreaChart
+          width={500}
+          height={200}
+          data={chartData}
+          syncId="anyId"
+          margin={{
+            top: 10,
+            right: 30,
+            left: 0,
+            bottom: 0,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="month" />
+          <YAxis />
+          <Tooltip />
+          <Area
+            type="monotone"
+            dataKey="userCount"
+            stroke="#DE950F"
+            fill="#F3E524"
+          />
+        </AreaChart>
+      </ResponsiveContainer>
+    </div>
+  );
+};
+
+export default UserStatistics;

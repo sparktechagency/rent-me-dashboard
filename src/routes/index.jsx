@@ -24,20 +24,25 @@ import AffiliateProgram from "../Pages/Dashboard/AffliateProgram";
 import Support from "../Pages/Dashboard/Support";
 import SafetyTips from "../Pages/Dashboard/SafetyTips";
 import CookiePolicy from "../Pages/Dashboard/CookiePolicy";
-import Subscribers from "../Pages/Dashboard/Subscribers";
+
 import Analytics from "../Pages/Dashboard/Analytics";
 import Promotion from "../Pages/Dashboard/Promotion";
-import PersonalInfo from "../components/ui/Settings/PersonalInfo";
+
 import UserProfile from "../Pages/Dashboard/AdminProfile/UserProfile";
 import TermsAndCondition from "../Pages/Dashboard/TermsAndCondition";
-import TermsAndConditions from "../components/ui/Settings/TermsAndConditions";
+
 import Vendors from "../Pages/Dashboard/Vendors";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
   {
     path: "/",
     // element: <ProtectedRoute><Main /></ProtectedRoute> ,
-    element: <Main />,
+    element: (
+      <PrivateRoute>
+        <Main />
+      </PrivateRoute>
+    ),
     children: [
       {
         path: "/",

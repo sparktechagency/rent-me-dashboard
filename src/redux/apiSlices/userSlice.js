@@ -2,6 +2,14 @@ import { api } from "../api/baseApi";
 
 const userSlice = api.injectEndpoints({
   endpoints: (builder) => ({
+    admin: builder.query({
+      query: () => {
+        return {
+          method: "GET",
+          url: "/user?role=ADMIN",
+        };
+      },
+    }),
     users: builder.query({
       query: () => {
         return {
@@ -14,7 +22,7 @@ const userSlice = api.injectEndpoints({
       query: () => {
         return {
           method: "GET",
-          url: "/vendor/",
+          url: "/user?role=VENDOR",
         };
       },
     }),
@@ -29,4 +37,9 @@ const userSlice = api.injectEndpoints({
   }),
 });
 
-export const { useUsersQuery, useVendorsQuery, useUserByIdQuery } = userSlice;
+export const {
+  useAdminQuery,
+  useUsersQuery,
+  useVendorsQuery,
+  useUserByIdQuery,
+} = userSlice;

@@ -1,7 +1,19 @@
+import { useBestServicesQuery } from "../../../redux/apiSlices/dashboardSlice";
+
 const BestShortsChart = () => {
+  const { data: bestServices, isLoading } = useBestServicesQuery();
+
+  if (isLoading) {
+    <h1>Loading...</h1>;
+  }
+
+  const chartData = bestServices?.data.slice(0, 3);
+
+  console.log("best services:", chartData);
+
   return (
     <div className="bg-white border rounded-2xl p-4">
-      <h1 className="font-bold">Best Shorts</h1>
+      <h1 className="font-bold">Best Services</h1>
       <div className="flex items-center justify-center">
         <div className=" relative w-32 h-28 my-5">
           <svg

@@ -27,7 +27,7 @@ const Vendors = () => {
     return <div>Loading...</div>;
   }
 
-  const data = vendors?.data;
+  const data = vendors?.data?.data;
 
   console.log(data);
 

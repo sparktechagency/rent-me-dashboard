@@ -6,9 +6,15 @@ import moment from "moment";
 const RunningOrdersTable = () => {
   const [filteredData, setFilteredData] = useState([]);
   const { data: orders, isLoading } = useOrdersQuery();
-  const data = orders?.data;
 
-  console.log(data);
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  const data = orders?.data?.map((order, index) => ({
+    ...order,
+    key: order.orderId || index.toString(),
+  }));
 
   const runningOrders = [
     { orderNo: "4566626", budget: "486", userName: "Bryan Chris" },

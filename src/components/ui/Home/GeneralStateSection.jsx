@@ -10,8 +10,6 @@ const GeneralStateSection = () => {
 
   const state = generalState?.data;
 
-  console.log(state);
-
   return (
     <div className="grid md:grid-cols-5 gap-6 md:h-[80px]">
       <div className="bg-white rounded-2xl  py-0 px-6 flex items-center justify-start gap-4">

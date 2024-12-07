@@ -1,6 +1,7 @@
 import { Menu } from "antd";
 import React, { useEffect, useState } from "react";
 import {
+  MdMiscellaneousServices,
   MdOutlineAdminPanelSettings,
   MdOutlineSubscriptions,
 } from "react-icons/md";
@@ -27,7 +28,7 @@ const Sidebar = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("authToken");
     navigate("/auth/login");
   };
 

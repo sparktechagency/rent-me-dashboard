@@ -6,11 +6,19 @@ const orderSlice = api.injectEndpoints({
       query: () => {
         return {
           method: "GET",
-          url: "/order",
+          url: "/dashboard/orders",
+        };
+      },
+    }),
+    orderProgress: builder.query({
+      query: () => {
+        return {
+          method: "GET",
+          url: "/dashboard/order-progress",
         };
       },
     }),
   }),
 });
 
-export const { useOrdersQuery } = orderSlice;
+export const { useOrdersQuery, useOrderProgressQuery } = orderSlice;
