@@ -3,11 +3,11 @@ import { api } from "../api/baseApi";
 const privacyPolicySlice = api.injectEndpoints({
   endpoints: (builder) => ({
     updatePricyPolicy: builder.mutation({
-      query: ({ id, description }) => {
+      query: (data) => {
         return {
-          url: `/privacy/update-privacy/${id}`,
-          method: "PATCH",
-          body: { description },
+          url: `/others/privacy-policy`,
+          method: "POST",
+          body: data,
           headers: {
             Authorization: `Bearer ${JSON.parse(
               localStorage.getItem("token")
@@ -17,9 +17,9 @@ const privacyPolicySlice = api.injectEndpoints({
       },
     }),
     privacyPolicy: builder.query({
-      query: () => {
+      query: (userType) => {
         return {
-          url: "/privacy/get-privacy",
+          url: `/others/privacy-policy/${userType}`,
           method: "GET",
           headers: {
             Authorization: `Bearer ${JSON.parse(

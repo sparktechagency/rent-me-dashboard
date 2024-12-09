@@ -6,7 +6,9 @@ export const api = createApi({
     baseUrl: "http://192.168.10.8:5001/api/v1",
     prepareHeaders: (headers) => {
       // Retrieve the token from localStorage
-      const token = localStorage.getItem("authToken");
+      const token =
+        localStorage.getItem("authToken") ||
+        sessionStorage.getItem("authToken");
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
       }

@@ -29,6 +29,7 @@ const Sidebar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
+    sessionStorage.removeItem("authToken");
     navigate("/auth/login");
   };
 
@@ -46,6 +47,11 @@ const Sidebar = () => {
       key: "/analytics",
       icon: <DiGoogleAnalytics size={24} />,
       label: <Link to="/analytics">Analytics</Link>,
+    },
+    {
+      key: "/banners",
+      icon: <DiGoogleAnalytics size={24} />,
+      label: <Link to="/banners">Banners</Link>,
     },
     {
       key: "/users",

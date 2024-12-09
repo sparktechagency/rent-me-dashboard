@@ -7,6 +7,7 @@ import {
 } from "../../redux/apiSlices/userSlice";
 import moment from "moment";
 import { FaStar } from "react-icons/fa6";
+import randomImg from "../../assets/randomProfile2.jpg";
 
 // Actions
 
@@ -29,8 +30,6 @@ const Vendors = () => {
 
   const data = vendors?.data?.data;
 
-  console.log(data);
-
   const columns = [
     {
       title: "Id",
@@ -43,12 +42,23 @@ const Vendors = () => {
       key: "name",
       render: (text, record) => {
         // Extract name from the appropriate object
-        const name = record?.name || "Unknown";
-        const imgUrl = record.profileImg;
+        const name =
+          record?.admin?.name ||
+          record?.customer?.name ||
+          record?.vendor?.name ||
+          "Unknown";
+        const imgUrl =
+          record?.admin?.profileImg ||
+          record?.customer?.profileImg ||
+          record?.vendor?.profileImg ||
+          randomImg;
 
+        const fullImgUrl = imgUrl?.startsWith("http")
+          ? imgUrl
+          : `${import.meta.env.VITE_BASE_URL}${imgUrl}`;
         return (
           <Space>
-            <Avatar src={imgUrl} alt={name} size="large" />
+            <Avatar src={fullImgUrl} alt={name} size="large" />
             <span>{name}</span>
           </Space>
         );
@@ -79,17 +89,17 @@ const Vendors = () => {
       render: (date) => moment(date).format("Do MMM, YYYY"),
     },
     {
-      title: "Total Earnings",
-      dataIndex: "totalReviews",
+      title: "Total Reviews",
+      dataIndex: ["vendor", "totalReviews"],
       key: "totalReviews",
       align: "center",
-      sorter: (a, b) => a.totalReviews - b.totalReviews,
+      sorter: (a, b) => a.vendor.totalReviews - b.vendor.totalReviews,
     },
     {
       title: "Rating",
-      dataIndex: "rating",
+      dataIndex: ["vendor", "rating"],
       key: "rating",
-      sorter: (a, b) => a.rating - b.rating,
+      sorter: (a, b) => a.vendor.rating - b.vendor.rating,
       render: (rating) => (
         <span className="flex items-center jus gap-1">
           <FaStar />

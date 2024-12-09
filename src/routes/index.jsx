@@ -33,6 +33,9 @@ import TermsAndCondition from "../Pages/Dashboard/TermsAndCondition";
 
 import Vendors from "../Pages/Dashboard/Vendors";
 import PrivateRoute from "./PrivateRoute";
+import Banners from "../Pages/Dashboard/Banners";
+import EditBanners from "../components/ui/Banners/EditBanners";
+import AddBanners from "../components/ui/Banners/AddBanners";
 
 const router = createBrowserRouter([
   {
@@ -51,6 +54,18 @@ const router = createBrowserRouter([
       {
         path: "/analytics",
         element: <Analytics />,
+      },
+      {
+        path: "/add-banner",
+        element: <AddBanners />,
+      },
+      {
+        path: "/banners",
+        element: <Banners />,
+      },
+      {
+        path: "/update-banner/:id",
+        element: <EditBanners />,
       },
       {
         path: "/user/profile/:id",

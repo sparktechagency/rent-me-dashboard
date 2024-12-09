@@ -1,33 +1,73 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Form, Input } from "antd";
 import { BiLeftArrowAlt } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { MdOutlineAddPhotoAlternate } from "react-icons/md";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import {
+  useFetchAdminProfileQuery,
+  useUpdateAdminProfileMutation,
+} from "../../../redux/apiSlices/authSlice";
+
+import logo from "../../../assets/randomProfile2.jpg";
+import toast from "react-hot-toast";
 
 const PersonalInfo = () => {
   const [phone, setPhone] = useState("");
-  const [imgURL, setImgURL] = useState(
-    "https://avatars.design/wp-content/uploads/2021/02/corporate-avatars-TN-1.jpg"
-  );
-
+  const [imgURL, setImgURL] = useState();
+  const [file, setFile] = useState(null);
   const [form] = Form.useForm();
 
+  const { data: fetchAdminProfile, isLoading } = useFetchAdminProfileQuery();
+  const [updateAdminProfile] = useUpdateAdminProfileMutation();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  const adminData = fetchAdminProfile?.data;
+
+  useEffect(() => {
+    if (adminData?.profileImg) {
+      setImgURL(`${import.meta.env.VITE_BASE_URL}${adminData?.profileImg}`);
+    }
+  }, [adminData]);
+
   const onChangeImage = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const imgUrl = URL.createObjectURL(file);
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      const imgUrl = URL.createObjectURL(selectedFile);
       setImgURL(imgUrl);
+      setFile(selectedFile);
     }
   };
 
-  const onFinish = (values) => {
-    const formData = {
-      ...values,
-      phone,
-    };
-    console.log("Form Submitted: ", formData);
+  const onFinish = async (values) => {
+    try {
+      // Prepare FormData
+      const formData = new FormData();
+      formData.append("name", values.name);
+      formData.append("email", values.email);
+      formData.append("phone", phone);
+
+      // Include the image file as 'image'
+      if (file) {
+        formData.append("image", file);
+      } else {
+        formData.append("imageUrl", imgURL);
+      }
+
+      const response = await updateAdminProfile(formData);
+
+      if (response.data) {
+        toast.success(response?.data?.message);
+      } else {
+        toast.error(response?.data?.message);
+      }
+    } catch (error) {
+      console.error("Error updating form:", error);
+    }
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -50,8 +90,9 @@ const PersonalInfo = () => {
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             initialValues={{
-              name: "John Doe",
-              email: "support@learnova.com",
+              name: adminData?.name || "",
+              email: adminData?.email || "",
+              phone: adminData?.phone || "+8801641963934",
             }}
           >
             <Form.Item
@@ -132,7 +173,9 @@ const PersonalInfo = () => {
             <label
               htmlFor="img"
               className="relative w-48 h-48 cursor-pointer rounded-full border border-primary bg-white bg-cover bg-center"
-              style={{ backgroundImage: `url(${imgURL})` }}
+              style={{
+                backgroundImage: `url(${imgURL ? imgURL : logo})`,
+              }}
             >
               <div className="absolute bottom-1 right-1 w-12 h-12 rounded-full border-2 border-primary bg-gray-100 flex items-center justify-center">
                 <MdOutlineAddPhotoAlternate

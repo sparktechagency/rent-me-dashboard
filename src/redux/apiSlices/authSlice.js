@@ -38,7 +38,6 @@ const authSlice = api.injectEndpoints({
     }),
     resetPassword: builder.mutation({
       query: (data) => {
-        console.log("authSlice data", data);
         return {
           method: "POST",
           url: "/auth/reset-password",
@@ -51,14 +50,11 @@ const authSlice = api.injectEndpoints({
     }),
 
     changePassword: builder.mutation({
-      query: (data) => {
+      query: (value) => {
         return {
           method: "POST",
           url: "/auth/change-password",
-          body: data,
-          headers: {
-            Authorization: localStorage.getItem("Authorization"),
-          },
+          body: value,
         };
       },
     }),
@@ -68,6 +64,20 @@ const authSlice = api.injectEndpoints({
         return {
           method: "POST",
           url: "/auth/update-profile",
+          body: data,
+          headers: {
+            Authorization: `Bearer ${JSON.parse(
+              localStorage.getItem("token")
+            )}`,
+          },
+        };
+      },
+    }),
+    updateAdminProfile: builder.mutation({
+      query: (data) => {
+        return {
+          method: "PATCH",
+          url: "/admin/profile",
           body: data,
           headers: {
             Authorization: `Bearer ${JSON.parse(
@@ -113,5 +123,6 @@ export const {
   useChangePasswordMutation,
   useUpdateProfileMutation,
   useProfileQuery,
+  useUpdateAdminProfileMutation,
   useFetchAdminProfileQuery,
 } = authSlice;

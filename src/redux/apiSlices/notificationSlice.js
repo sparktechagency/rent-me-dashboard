@@ -5,7 +5,7 @@ const notificationSlice = api.injectEndpoints({
     notification: builder.query({
       query: () => {
         return {
-          url: `/notifications`,
+          url: `/notification`,
           method: "GET",
           headers: {
             Authorization: `Bearer ${JSON.parse(

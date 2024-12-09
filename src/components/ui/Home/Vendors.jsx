@@ -22,7 +22,13 @@ const Vendors = () => {
           <div key={index} className="flex items-center gap-4">
             <img
               className="w-7 h-7 rounded-full"
-              src={value?.profileImage || randomImg}
+              src={
+                value?.profileImg
+                  ? value.profileImg.startsWith("http")
+                    ? value.profileImg
+                    : `${import.meta.env.VITE_BASE_URL}${value.profileImg}`
+                  : randomImg
+              }
               alt={value?.name}
             />
 

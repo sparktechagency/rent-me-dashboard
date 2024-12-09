@@ -16,8 +16,6 @@ const User = () => {
 
   const user = singleUser?.data;
 
-  console.log(user);
-
   // const user = {
   //   id: "6563",
   //   name: "John Doe",
@@ -71,7 +69,16 @@ const User = () => {
             <h1 className="font-semibold text-sm border-b-2 border-dashed">
               Address
             </h1>
-            <p className="text-lg  my-2">California Street 4533</p>
+            <p className="text-lg  my-2">
+              {user?.vendor?.address ? (
+                <p>
+                  {user?.vendor?.address?.city},{" "}
+                  {user?.vendor?.address?.country}
+                </p>
+              ) : (
+                "N/A"
+              )}
+            </p>
           </div>
         </div>
       </div>

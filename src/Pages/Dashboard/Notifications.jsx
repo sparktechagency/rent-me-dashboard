@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ConfigProvider, Pagination } from "antd";
 import Title from "../../components/common/Title";
+import { useNotificationQuery } from "../../redux/apiSlices/notificationSlice";
 
 const notificationsData = [
   {
@@ -72,6 +73,16 @@ const notificationsData = [
 const Notifications = () => {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
+
+  const { data: notifications, isLoading } = useNotificationQuery();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  const notificationData = notifications.data;
+
+  console.log(notificationData);
 
   const paginatedData = notificationsData.slice(
     (page - 1) * pageSize,

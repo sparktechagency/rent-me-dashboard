@@ -26,7 +26,13 @@ const Login = () => {
       navigate("/");
       toast.success("Login successful!");
     } catch (error) {
-      console.error("Login failed:", error); // Handle login error
+      toast.error(error || "An error occurred", {
+        style: {
+          fontSize: "18px",
+          padding: "20px",
+          maxWidth: "600px",
+        },
+      });
     }
   };
 

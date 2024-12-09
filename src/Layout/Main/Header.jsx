@@ -7,7 +7,7 @@ import logo from "../../assets/randomProfile2.jpg";
 import { useFetchAdminProfileQuery } from "../../redux/apiSlices/authSlice";
 
 const Header = () => {
-  const { data: userData, isLoading } = useFetchAdminProfileQuery(undefined);
+  const { data: userData, isLoading } = useFetchAdminProfileQuery();
 
   if (isLoading) {
     return (
@@ -25,24 +25,25 @@ const Header = () => {
         </Badge>
       </Link>
 
-      {/* <Link to="/profile" className="flex  items-center gap-3"> */}
-      <img
-        style={{
-          clipPath: "circle()",
-          width: 45,
-          height: 45,
-        }}
-        src={
-          userData?.data?.profileImage
-            ? `${import.meta.env.VITE_BASE_URL}${userData?.data?.profileImage}`
-            : logo
-        }
-        alt="person-male--v2"
-        className="clip"
-      />
-      <div className="flex flex-col gap-2 p-2">
-        <p>{userData?.data?.name}</p>
-        <p>{userData?.data?.role}</p>
+      <div className="flex gap-2 items-center justify-center border-4 p-1 rounded-full">
+        <img
+          style={{
+            clipPath: "circle()",
+            width: 45,
+            height: 45,
+          }}
+          src={
+            userData?.data?.profileImg
+              ? `${import.meta.env.VITE_BASE_URL}${userData?.data?.profileImg}`
+              : logo
+          }
+          alt="person-male--v2"
+          className="clip"
+        />
+        <div className="flex pr-2 flex-col">
+          <p className="text-xl">{userData?.data?.name}</p>
+          <p className="text-sm text-gray-500">{userData?.data?.role}</p>
+        </div>
       </div>
     </div>
   );

@@ -2,29 +2,96 @@ import React, { useState, useRef, useEffect } from "react";
 import JoditEditor from "jodit-react";
 import Title from "../../components/common/Title";
 
+import toast from "react-hot-toast";
+import {
+  usePrivacyPolicyQuery,
+  useUpdatePricyPolicyMutation,
+} from "../../redux/apiSlices/privacyPolicySlice";
+
 const PrivacyPolicy = () => {
   const editor = useRef(null);
   const [content, setContent] = useState("");
-
-  const privacyPolicy = {
-    description:
-      "Tradcouples Matchmaking Services stands at the forefront of sophisticated matchmaking, where accomplished individuals can make exceptional connections. Here you can find women of your choice by sharing your thoughts and opinions You deserve nothing less than extraordinary – find someone born for you.",
-  };
-
-  const privacyDataSave = async () => {
-    console.log(content);
-  };
+  const [selectedTab, setSelectedTab] = useState("USER");
 
   useEffect(() => {
     setContent(content);
-  }, []);
+  }, [selectedTab]);
+
+  const {
+    data: privacyPolicy,
+    isLoading,
+    refetch,
+  } = usePrivacyPolicyQuery(selectedTab);
+
+  const [updatePricyPolicy] = useUpdatePricyPolicyMutation();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  const privacyPolicyData = privacyPolicy?.content;
+
+  const termsDataSave = async () => {
+    const data = {
+      content: content,
+      userType: selectedTab,
+    };
+
+    try {
+      const res = await updatePricyPolicy(data).unwrap();
+      if (res.success) {
+        toast.success("Privacy Policy updated successfully");
+        setContent(res.data.content);
+        refetch();
+      } else {
+        toast.error("Something went wrong");
+      }
+    } catch (error) {
+      console.error("Update failed:", error);
+      toast.error("Update failed. Please try again.");
+    }
+  };
+
+  const tabContent = {
+    USER: privacyPolicyData,
+    VENDOR: privacyPolicyData,
+    CUSTOMER: privacyPolicyData,
+  };
 
   return (
     <div>
       <Title className="mb-4">Privacy Policy</Title>
+
+      <div className="flex justify-center gap-4 mb-4">
+        <button
+          className={`px-4 rounded-2xl py-2 ${
+            selectedTab === "USER" ? "bg-[#FFD900]" : "bg-gray-200"
+          }`}
+          onClick={() => setSelectedTab("USER")}
+        >
+          Users
+        </button>
+        <button
+          className={`px-4 rounded-2xl py-2 ${
+            selectedTab === "VENDOR" ? "bg-[#FFD900]" : "bg-gray-200"
+          }`}
+          onClick={() => setSelectedTab("VENDOR")}
+        >
+          Vendors
+        </button>
+        <button
+          className={`px-4 rounded-2xl py-2 ${
+            selectedTab === "CUSTOMER" ? "bg-[#FFD900]" : "bg-gray-200"
+          }`}
+          onClick={() => setSelectedTab("CUSTOMER")}
+        >
+          Customers
+        </button>
+      </div>
+
       <JoditEditor
         ref={editor}
-        value={content}
+        value={tabContent[selectedTab]}
         onChange={(newContent) => {
           setContent(newContent);
         }}
@@ -32,9 +99,8 @@ const PrivacyPolicy = () => {
 
       <div className="flex items-center justify-center mt-5">
         <button
-          onClick={privacyDataSave}
-          type="primary"
-          htmlType="submit"
+          onClick={termsDataSave}
+          type="submit"
           className="bg-[#FFD900] w-[160px] h-[42px] rounded-lg"
         >
           Submit

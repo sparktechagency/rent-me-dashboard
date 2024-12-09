@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Table, Button, Space, Avatar } from "antd";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useUsersQuery } from "../../redux/apiSlices/userSlice";
+import randomImg from "../../assets/randomProfile2.jpg";
 
 const Users = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -15,8 +16,6 @@ const Users = () => {
   }
 
   const data = users?.data?.data;
-
-  console.log(data);
 
   const onSelectChange = (newSelectedRowKeys) => {
     console.log("selectedRowKeys changed: ", newSelectedRowKeys);
@@ -41,13 +40,17 @@ const Users = () => {
           record?.vendor?.name ||
           "Unknown";
         const imgUrl =
-          record?.admin?.imgUrl ||
-          record?.customer?.imgUrl ||
-          record?.vendor?.imgUrl;
+          record?.admin?.profileImg ||
+          record?.customer?.profileImg ||
+          record?.vendor?.profileImg ||
+          randomImg;
 
+        const fullImgUrl = imgUrl?.startsWith("http")
+          ? imgUrl
+          : `${import.meta.env.VITE_BASE_URL}${imgUrl}`;
         return (
           <Space>
-            <Avatar src={imgUrl} alt={name} size="large" />
+            <Avatar src={fullImgUrl} alt={name} size="large" />
             <span>{name}</span>
           </Space>
         );
