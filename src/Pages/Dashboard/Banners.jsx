@@ -1,95 +1,40 @@
-import { Button, Space, Table } from "antd";
-import { useAllBannerQuery } from "../../redux/apiSlices/banenrSlice";
+import { Button, Space, Table, message, Modal } from "antd";
+import {
+  useAllBannerQuery,
+  useDeleteBannerMutation,
+} from "../../redux/apiSlices/banenrSlice";
 import moment from "moment";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
-
-const columns = [
-  {
-    title: "Image",
-    dataIndex: "imgUrl",
-    key: "imgUrl",
-    render: (img) => (
-      <img
-        src={
-          img.startsWith("http")
-            ? img
-            : `${import.meta.env.VITE_BASE_URL}${img}`
-        }
-        alt="User Image"
-        className="rounded-2xl w-20 h-16"
-      />
-    ),
-  },
-  {
-    title: "Title",
-    dataIndex: "title",
-    key: "title",
-    render: (text) => <a>{text}</a>,
-  },
-  {
-    title: "Description",
-    dataIndex: "description",
-    key: "description",
-  },
-  {
-    title: "Link",
-    dataIndex: "link",
-    key: "link",
-    render: (link) => (
-      <a
-        className="font-bold text-blue-600 underline"
-        href={
-          link.startsWith("http")
-            ? link
-            : `${import.meta.env.VITE_BASE_URL}${link}`
-        }
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Link
-      </a>
-    ),
-  },
-  {
-    title: "Created",
-    dataIndex: "createdAt",
-    key: "createdAt",
-    render: (date) => <span>{moment(date).format("DD-MM-YYYY")}</span>,
-  },
-  {
-    title: "Status",
-    dataIndex: "isActive",
-    key: "isActive",
-    render: (isActive) => (
-      <span style={{ color: isActive ? "green" : "red" }}>
-        {isActive ? "Active" : "Inactive"}
-      </span>
-    ),
-  },
-  {
-    title: "Actions",
-    key: "actions",
-    render: (_, record) => (
-      <Space>
-        <Link to={`/update-banner/${record._id}`}>
-          <Button className="border-none">
-            <FaEdit />
-          </Button>
-        </Link>
-        <Link to={`/delete-banner/${record._id}`}>
-          <Button className="border-none">
-            <MdDelete />
-          </Button>
-        </Link>
-      </Space>
-    ),
-  },
-];
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 const Banners = () => {
-  const { data: allBanner, isLoading } = useAllBannerQuery();
+  const { data: allBanner, isLoading, refetch } = useAllBannerQuery();
+  const [deleteBanner] = useDeleteBannerMutation();
+  const [isDeleting, setIsDeleting] = useState(false); // To handle loading state for delete operation
+
+  const handleDelete = async (id) => {
+    Modal.confirm({
+      title: "Are you sure you want to delete this banner?",
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk: async () => {
+        try {
+          setIsDeleting(true);
+          const response = await deleteBanner(id).unwrap();
+          toast.success(response?.message || "Banner deleted successfully!");
+          refetch(); // Explicitly refetch after deletion
+        } catch (error) {
+          toast.error(error?.data?.message || "Failed to delete banner.");
+        } finally {
+          setIsDeleting(false);
+        }
+      },
+    });
+  };
 
   if (isLoading) {
     return <h1>Loading...</h1>;
@@ -100,7 +45,90 @@ const Banners = () => {
     key: banner._id,
   }));
 
-  console.log(bannerData);
+  const columns = [
+    {
+      title: "Image",
+      dataIndex: "imgUrl",
+      key: "imgUrl",
+      render: (img) => (
+        <img
+          src={
+            img.startsWith("http")
+              ? img
+              : `${import.meta.env.VITE_BASE_URL}${img}`
+          }
+          alt="Banner Image"
+          className="rounded-2xl w-20 h-16"
+        />
+      ),
+    },
+    {
+      title: "Title",
+      dataIndex: "title",
+      key: "title",
+      render: (text) => <a>{text}</a>,
+    },
+    {
+      title: "Description",
+      dataIndex: "description",
+      key: "description",
+    },
+    {
+      title: "Link",
+      dataIndex: "link",
+      key: "link",
+      render: (link) => (
+        <a
+          className="font-bold text-blue-600 underline"
+          href={
+            link.startsWith("http")
+              ? link
+              : `${import.meta.env.VITE_BASE_URL}${link}`
+          }
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Link
+        </a>
+      ),
+    },
+    {
+      title: "Created",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (date) => <span>{moment(date).format("DD-MM-YYYY")}</span>,
+    },
+    {
+      title: "Status",
+      dataIndex: "isActive",
+      key: "isActive",
+      render: (isActive) => (
+        <span style={{ color: isActive ? "green" : "red" }}>
+          {isActive ? "Active" : "Inactive"}
+        </span>
+      ),
+    },
+    {
+      title: "Actions",
+      key: "actions",
+      render: (_, record) => (
+        <Space>
+          <Link to={`/update-banner/${record._id}`}>
+            <Button className="border-none">
+              <FaEdit className="w-6 h-6" />
+            </Button>
+          </Link>
+          <Button
+            className="border-none"
+            onClick={() => handleDelete(record._id)}
+            loading={isDeleting}
+          >
+            <MdDelete className="w-6 h-6" />
+          </Button>
+        </Space>
+      ),
+    },
+  ];
 
   return (
     <div>

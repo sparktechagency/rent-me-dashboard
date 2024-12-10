@@ -88,3 +88,7 @@
   border-radius: 100%;
   color: black !important;
 }
+
+.ant-switch-checked {
+  background-color: #ffd900 !important;
+}

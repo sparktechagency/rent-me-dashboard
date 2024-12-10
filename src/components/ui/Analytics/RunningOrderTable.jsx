@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useOrdersQuery } from "../../../redux/apiSlices/orderSlice";
 import moment from "moment";
 
-const RunningOrderTable = () => {
+const RunningOrderTable = ({ filterProps }) => {
   const { data: orders, isLoading } = useOrdersQuery();
   const data = orders?.data;
 
@@ -11,17 +11,30 @@ const RunningOrderTable = () => {
   const [searchText, setSearchText] = useState("");
   const [filteredData, setFilteredData] = useState([]);
 
-  // Set filteredData whenever data changes
+  // Set filteredData whenever data changes or when filterProps changes
   useEffect(() => {
     if (data) {
-      setFilteredData(
-        data.map((item) => ({
-          ...item,
-          key: item._id, // Set a unique key for each row
-        }))
-      );
+      const updatedData = data.map((item) => ({
+        ...item,
+        key: item._id, // Set a unique key for each row
+      }));
+
+      // Apply additional filtering based on filterProps
+      const filtered = filterProps
+        ? updatedData.filter(
+            (item) =>
+              item.vendorId.name
+                .toLowerCase()
+                .includes(filterProps.toLowerCase()) ||
+              item.customerId.name
+                .toLowerCase()
+                .includes(filterProps.toLowerCase())
+          )
+        : updatedData;
+
+      setFilteredData(filtered);
     }
-  }, [data]);
+  }, [data, filterProps]);
 
   const handleSearch = (e) => {
     const value = e.target.value.toLowerCase();
@@ -51,7 +64,6 @@ const RunningOrderTable = () => {
       key: "orderId",
       width: 150,
     },
-
     {
       title: "Customer Name",
       dataIndex: "customerId",
@@ -91,7 +103,6 @@ const RunningOrderTable = () => {
       key: "preference",
       width: 150,
     },
-
     {
       title: "Order Date",
       dataIndex: "createdAt",

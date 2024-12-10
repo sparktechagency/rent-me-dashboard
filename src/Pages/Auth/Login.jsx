@@ -14,13 +14,13 @@ const Login = () => {
   const onFinish = async (values) => {
     try {
       // console.log(values);
-      const response = await login(values).unwrap(); // Call RTK Query's login mutation
+      const response = await login(values).unwrap();
       const { accessToken } = response?.data;
 
       if (rememberMe) {
-        localStorage.setItem("authToken", accessToken); // Store token in localStorage
+        localStorage.setItem("authToken", accessToken);
       } else {
-        sessionStorage.setItem("authToken", accessToken); // Store token in sessionStorage
+        sessionStorage.setItem("authToken", accessToken);
       }
 
       navigate("/");

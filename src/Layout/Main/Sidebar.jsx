@@ -1,19 +1,13 @@
 import { Menu } from "antd";
 import React, { useEffect, useState } from "react";
-import {
-  MdMiscellaneousServices,
-  MdOutlineAdminPanelSettings,
-  MdOutlineSubscriptions,
-} from "react-icons/md";
-import { AiOutlineDashboard } from "react-icons/ai";
+import { MdFeaturedPlayList } from "react-icons/md";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { HiUserGroup } from "react-icons/hi2";
+
 import { TbUserScreen } from "react-icons/tb";
 import { IoIosLogOut } from "react-icons/io";
 import { IoSettingsOutline } from "react-icons/io5";
-import { BiBookContent } from "react-icons/bi";
-import { FaQuestion } from "react-icons/fa6";
-import { PiUserPlus, PiUsers } from "react-icons/pi";
+
+import { PiUserPlus } from "react-icons/pi";
 import { LuLayoutDashboard } from "react-icons/lu";
 
 import logo from "../../assets/navLogo.png";
@@ -50,7 +44,7 @@ const Sidebar = () => {
     },
     {
       key: "/banners",
-      icon: <DiGoogleAnalytics size={24} />,
+      icon: <MdFeaturedPlayList size={24} />,
       label: <Link to="/banners">Banners</Link>,
     },
     {
@@ -63,11 +57,11 @@ const Sidebar = () => {
       icon: <PiUserPlus size={24} />,
       label: <Link to="/vendors">Vendors</Link>,
     },
-    {
-      key: "/promotion",
-      icon: <SlCalender size={24} />,
-      label: <Link to="/promotion">Promotion</Link>,
-    },
+    // {
+    //   key: "/promotion",
+    //   icon: <SlCalender size={24} />,
+    //   label: <Link to="/promotion">Promotion</Link>,
+    // },
 
     {
       key: "subMenuSetting",

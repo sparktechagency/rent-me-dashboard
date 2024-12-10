@@ -16,14 +16,6 @@ const User = () => {
 
   const user = singleUser?.data;
 
-  // const user = {
-  //   id: "6563",
-  //   name: "John Doe",
-  //   email: "john.doe@example.com",
-  //   status: "Active",
-  //   imgUrl: "https://www.example.com/path/to/image1.jpg",
-  // };
-
   return (
     <div>
       <div className="">
@@ -83,7 +75,11 @@ const User = () => {
         </div>
       </div>
       <div>
-        <RunningOrderTable />
+        <RunningOrderTable
+          filterProps={
+            user?.vendor?.name || user?.admin?.name || user?.customer?.name
+          }
+        />
       </div>
     </div>
   );

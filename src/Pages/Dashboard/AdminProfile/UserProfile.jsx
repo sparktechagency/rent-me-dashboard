@@ -122,7 +122,7 @@ const PersonalInfo = () => {
                 },
               ]}
             >
-              <Input className="py-3 bg-gray-100 rounded-xl" />
+              <Input readOnly className="py-3 bg-gray-100 rounded-xl" />
             </Form.Item>
 
             <Form.Item
