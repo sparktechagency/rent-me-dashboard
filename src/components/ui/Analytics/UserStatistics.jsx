@@ -51,7 +51,7 @@ const UserStatistics = () => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="month" />
+          <XAxis dataKey="month" tickFormatter={(month) => month.slice(0, 3)} />
           <YAxis />
           <Tooltip />
           <Area

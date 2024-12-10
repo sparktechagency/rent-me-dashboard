@@ -11,6 +11,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 
 const Banners = () => {
+  const [pageSize, setPageSize] = useState(5);
   const { data: allBanner, isLoading, refetch } = useAllBannerQuery();
   const [deleteBanner] = useDeleteBannerMutation();
   const [isDeleting, setIsDeleting] = useState(false); // To handle loading state for delete operation
@@ -132,6 +133,7 @@ const Banners = () => {
 
   return (
     <div>
+      <h1 className="text-center text-2xl font-semibold">Manage Banners</h1>
       <div className="text-end my-5">
         <Link to={`/add-banner`}>
           <button className="bg-[#FFD900] h-10 px-4 rounded-md">
@@ -139,7 +141,17 @@ const Banners = () => {
           </button>
         </Link>
       </div>
-      <Table columns={columns} dataSource={bannerData} />
+      <Table
+        columns={columns}
+        dataSource={bannerData}
+        pagination={{
+          pageSize: pageSize,
+          showSizeChanger: true,
+          pageSizeOptions: ["5", "10", "15"],
+          onShowSizeChange: (current, size) => setPageSize(size),
+          position: ["bottomCenter"],
+        }}
+      />
     </div>
   );
 };

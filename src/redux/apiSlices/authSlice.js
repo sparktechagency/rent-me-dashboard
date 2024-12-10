@@ -57,6 +57,7 @@ const authSlice = api.injectEndpoints({
           body: value,
         };
       },
+      invalidatesTags: ["AdminData"],
     }),
 
     updateProfile: builder.mutation({
@@ -72,6 +73,7 @@ const authSlice = api.injectEndpoints({
           },
         };
       },
+      invalidatesTags: ["AdminData"],
     }),
     updateAdminProfile: builder.mutation({
       query: (data) => {
@@ -86,6 +88,7 @@ const authSlice = api.injectEndpoints({
           },
         };
       },
+      invalidatesTags: ["AdminData"],
     }),
 
     profile: builder.query({
@@ -100,6 +103,8 @@ const authSlice = api.injectEndpoints({
           },
         };
       },
+      providesTags: ["AdminData"],
+
       transformResponse: ({ user }) => {
         return user;
       },
@@ -111,6 +116,7 @@ const authSlice = api.injectEndpoints({
           url: "/admin/profile",
         };
       },
+      providesTags: ["AdminData"],
     }),
   }),
 });

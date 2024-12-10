@@ -49,6 +49,7 @@ const PersonalInfo = () => {
       const formData = new FormData();
       formData.append("name", values.name);
       formData.append("email", values.email);
+      formData.append("address", values.address);
       formData.append("phone", phone);
 
       // Include the image file as 'image'
@@ -92,6 +93,7 @@ const PersonalInfo = () => {
             initialValues={{
               name: adminData?.name || "",
               email: adminData?.email || "",
+              address: adminData?.address || "",
               phone: adminData?.phone || "+8801641963934",
             }}
           >
@@ -123,6 +125,18 @@ const PersonalInfo = () => {
               ]}
             >
               <Input readOnly className="py-3 bg-gray-100 rounded-xl" />
+            </Form.Item>
+            <Form.Item
+              name="address"
+              label="Address"
+              rules={[
+                {
+                  required: true,
+                  message: "Please enter your Address",
+                },
+              ]}
+            >
+              <Input className="py-3 bg-gray-100 rounded-xl" />
             </Form.Item>
 
             <Form.Item

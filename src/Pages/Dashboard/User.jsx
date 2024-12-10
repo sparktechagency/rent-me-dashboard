@@ -15,6 +15,13 @@ const User = () => {
   }
 
   const user = singleUser?.data;
+  console.log(user);
+
+  const imgUrl =
+    user?.admin?.profileImg ||
+    user?.user?.profileImg ||
+    user?.customer?.profileImg ||
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmtj40PvvTQ1g64pgKZ2oKEk-tqT9rA4CXSA&s";
 
   return (
     <div>
@@ -23,8 +30,9 @@ const User = () => {
           <img
             className="rounded-full w-16 h-16"
             src={
-              user.profileImage ||
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmtj40PvvTQ1g64pgKZ2oKEk-tqT9rA4CXSA&s"
+              imgUrl?.startsWith("http")
+                ? imgUrl
+                : `${import.meta.env.VITE_BASE_URL}${imgUrl}`
             }
             alt="img"
           />
@@ -62,14 +70,26 @@ const User = () => {
               Address
             </h1>
             <p className="text-lg  my-2">
-              {user?.vendor?.address ? (
-                <p>
-                  {user?.vendor?.address?.city},{" "}
-                  {user?.vendor?.address?.country}
-                </p>
-              ) : (
-                "N/A"
-              )}
+              {user?.vendor?.address ||
+              user?.admin?.address ||
+              user?.user?.address
+                ? <p>{user?.admin?.address}</p> || (
+                    <p>
+                      {user?.admin?.address?.city},{" "}
+                      {user?.admin?.address?.country}
+                    </p>
+                  ) || <p>{user?.user?.address}</p> || (
+                    <p>
+                      {user?.user?.address?.city},{" "}
+                      {user?.user?.address?.country}
+                    </p>
+                  ) || <p>{user?.vendor?.address}</p> || (
+                    <p>
+                      {user?.vendor?.address?.city},{" "}
+                      {user?.vendor?.address?.country}
+                    </p>
+                  )
+                : "N/A"}
             </p>
           </div>
         </div>
