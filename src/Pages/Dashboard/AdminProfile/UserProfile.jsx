@@ -9,12 +9,12 @@ import {
   useFetchAdminProfileQuery,
   useUpdateAdminProfileMutation,
 } from "../../../redux/apiSlices/authSlice";
-
 import logo from "../../../assets/randomProfile2.jpg";
 import toast from "react-hot-toast";
+const baseUrl = import.meta.env.VITE_BASE_URL;
 
 const PersonalInfo = () => {
-  const [phone, setPhone] = useState("");
+  const [contact, setContact] = useState("");
   const [imgURL, setImgURL] = useState();
   const [file, setFile] = useState(null);
   const [form] = Form.useForm();
@@ -22,17 +22,24 @@ const PersonalInfo = () => {
   const { data: fetchAdminProfile, isLoading } = useFetchAdminProfileQuery();
   const [updateAdminProfile] = useUpdateAdminProfileMutation();
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
   const adminData = fetchAdminProfile?.data;
 
   useEffect(() => {
-    if (adminData?.profileImg) {
-      setImgURL(`${import.meta.env.VITE_BASE_URL}${adminData?.profileImg}`);
+    if (adminData) {
+      form.setFieldsValue({
+        name: adminData?.name,
+        email: adminData?.email,
+        address: adminData?.address,
+        phone: adminData?.contact,
+      });
+      setImgURL(`${baseUrl}${adminData?.profileImg}`);
+      setContact(adminData?.contact);
     }
-  }, [adminData]);
+  }, [form, adminData]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   const onChangeImage = (e) => {
     const selectedFile = e.target.files[0];
@@ -45,14 +52,12 @@ const PersonalInfo = () => {
 
   const onFinish = async (values) => {
     try {
-      // Prepare FormData
       const formData = new FormData();
       formData.append("name", values.name);
       formData.append("email", values.email);
       formData.append("address", values.address);
-      formData.append("phone", phone);
+      formData.append("contact", contact);
 
-      // Include the image file as 'image'
       if (file) {
         formData.append("image", file);
       } else {
@@ -90,22 +95,11 @@ const PersonalInfo = () => {
             layout="vertical"
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
-            initialValues={{
-              name: adminData?.name || "",
-              email: adminData?.email || "",
-              address: adminData?.address || "",
-              phone: adminData?.phone || "+8801641963934",
-            }}
           >
             <Form.Item
               name="name"
               label="Name"
-              rules={[
-                {
-                  required: true,
-                  message: "Please enter your name",
-                },
-              ]}
+              rules={[{ required: true, message: "Please enter your name" }]}
             >
               <Input className="py-3 bg-gray-100 rounded-xl" />
             </Form.Item>
@@ -114,14 +108,8 @@ const PersonalInfo = () => {
               name="email"
               label="Email"
               rules={[
-                {
-                  type: "email",
-                  message: "Please enter a valid email",
-                },
-                {
-                  required: true,
-                  message: "Please enter your email",
-                },
+                { type: "email", message: "Please enter a valid email" },
+                { required: true, message: "Please enter your email" },
               ]}
             >
               <Input readOnly className="py-3 bg-gray-100 rounded-xl" />
@@ -129,12 +117,7 @@ const PersonalInfo = () => {
             <Form.Item
               name="address"
               label="Address"
-              rules={[
-                {
-                  required: true,
-                  message: "Please enter your Address",
-                },
-              ]}
+              rules={[{ required: true, message: "Please enter your Address" }]}
             >
               <Input className="py-3 bg-gray-100 rounded-xl" />
             </Form.Item>
@@ -143,16 +126,13 @@ const PersonalInfo = () => {
               label="Phone"
               name="phone"
               rules={[
-                {
-                  required: true,
-                  message: "Please enter your phone number",
-                },
+                { required: true, message: "Please enter your phone number" },
               ]}
             >
               <PhoneInput
                 country="us"
-                value={phone}
-                onChange={setPhone}
+                value={contact}
+                onChange={setContact}
                 inputClass="!w-full !px-4 !py-3 !py-5 !ps-12 !border !border-gray-300 !rounded-lg !focus:outline-none !focus:ring-2 !focus:ring-blue-400"
                 containerClass="!w-full"
               />
@@ -187,9 +167,7 @@ const PersonalInfo = () => {
             <label
               htmlFor="img"
               className="relative w-48 h-48 cursor-pointer rounded-full border border-primary bg-white bg-cover bg-center"
-              style={{
-                backgroundImage: `url(${imgURL ? imgURL : logo})`,
-              }}
+              style={{ backgroundImage: `url(${imgURL ? imgURL : logo})` }}
             >
               <div className="absolute bottom-1 right-1 w-12 h-12 rounded-full border-2 border-primary bg-gray-100 flex items-center justify-center">
                 <MdOutlineAddPhotoAlternate

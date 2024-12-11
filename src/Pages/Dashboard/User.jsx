@@ -15,7 +15,6 @@ const User = () => {
   }
 
   const user = singleUser?.data;
-  console.log(user);
 
   const imgUrl =
     user?.admin?.profileImg ||
@@ -69,26 +68,19 @@ const User = () => {
             <h1 className="font-semibold text-sm border-b-2 border-dashed">
               Address
             </h1>
-            <p className="text-lg  my-2">
-              {user?.vendor?.address ||
-              user?.admin?.address ||
-              user?.user?.address
-                ? <p>{user?.admin?.address}</p> || (
-                    <p>
-                      {user?.admin?.address?.city},{" "}
-                      {user?.admin?.address?.country}
-                    </p>
-                  ) || <p>{user?.user?.address}</p> || (
-                    <p>
-                      {user?.user?.address?.city},{" "}
-                      {user?.user?.address?.country}
-                    </p>
-                  ) || <p>{user?.vendor?.address}</p> || (
-                    <p>
-                      {user?.vendor?.address?.city},{" "}
-                      {user?.vendor?.address?.country}
-                    </p>
-                  )
+            <p className="text-lg my-2">
+              {user?.admin?.address
+                ? user.admin.address.city && user.admin.address.country
+                  ? `${user.admin.address.city}, ${user.admin.address.country}`
+                  : user.admin.address
+                : user?.user?.address
+                ? user.user.address.city && user.user.address.country
+                  ? `${user.user.address.city}, ${user.user.address.country}`
+                  : user.user.address
+                : user?.vendor?.address
+                ? user.vendor.address.city && user.vendor.address.country
+                  ? `${user.vendor.address.city}, ${user.vendor.address.country}`
+                  : user.vendor.address
                 : "N/A"}
             </p>
           </div>

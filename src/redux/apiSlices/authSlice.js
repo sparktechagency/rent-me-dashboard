@@ -116,7 +116,6 @@ const authSlice = api.injectEndpoints({
           url: "/admin/profile",
         };
       },
-      providesTags: ["AdminData"],
     }),
   }),
 });

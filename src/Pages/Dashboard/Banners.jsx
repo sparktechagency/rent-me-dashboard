@@ -132,9 +132,9 @@ const Banners = () => {
   ];
 
   return (
-    <div>
-      <h1 className="text-center text-2xl font-semibold">Manage Banners</h1>
-      <div className="text-end my-5">
+    <div className="">
+      <div className="flex justify-between mb-5 items-center">
+        <h1 className=" text-2xl font-semibold">Manage Banners</h1>
         <Link to={`/add-banner`}>
           <button className="bg-[#FFD900] h-10 px-4 rounded-md">
             + Add Banner

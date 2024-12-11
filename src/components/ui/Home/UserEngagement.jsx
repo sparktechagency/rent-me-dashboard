@@ -11,28 +11,53 @@ import {
 } from "recharts";
 import { useOverAllStateQuery } from "../../../redux/apiSlices/dashboardSlice";
 
-const userData = [
-  { name: "Mo", totalUsers: 1200, activeUsers: 450 },
-  { name: "Tu", totalUsers: 1100, activeUsers: 930 },
-  { name: "We", totalUsers: 700, activeUsers: 560 },
-  { name: "Th", totalUsers: 1400, activeUsers: 870 },
-  { name: "Fr", totalUsers: 900, activeUsers: 780 },
-  { name: "Sa", totalUsers: 1600, activeUsers: 1250 },
-  { name: "Su", totalUsers: 1700, activeUsers: 500 },
-];
-
 const UserEngagement = () => {
-  const { data: overAllState, isLoading } = useOverAllStateQuery();
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: 12 }, (_, i) => currentYear - 10 + i);
+
+  const [selectedYear, setSelectedYear] = useState(currentYear.toString());
+
+  const {
+    data: overAllState,
+    isLoading,
+    refetch,
+  } = useOverAllStateQuery({ range: selectedYear }, { skip: false });
+
+  useEffect(() => {
+    refetch();
+  }, [selectedYear, refetch]);
 
   if (isLoading) {
-    <h1>Loading...</h1>;
+    return <h1>Loading...</h1>;
   }
 
-  const chartData = overAllState?.data?.data;
+  const chartData = overAllState?.data;
 
   return (
     <div className="bg-white p-5 w-[100%] h-[300px] rounded-2xl border">
-      <h2 className="font-bold mb-5">User Engagement</h2>
+      <div className="flex justify-between items-center mb-5">
+        <h2 className="font-bold">User Engagement</h2>
+        <div className="relative">
+          <select
+            value={selectedYear}
+            onChange={(e) => setSelectedYear(e.target.value)}
+            className="border rounded-md px-3 py-2 w-32 cursor-pointer"
+            style={{
+              maxHeight: "150px",
+              overflowY: "scroll",
+            }}
+          >
+            {years
+              .slice()
+              .reverse()
+              .map((year) => (
+                <option key={year} value={year}>
+                  {year}
+                </option>
+              ))}
+          </select>
+        </div>
+      </div>
       <ResponsiveContainer width="100%" height="100%">
         <LineChart
           data={chartData}

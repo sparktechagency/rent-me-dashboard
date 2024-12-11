@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import FormItem from "../../components/common/FormItem";
 import { useLoginMutation } from "../../redux/apiSlices/authSlice";
 import toast from "react-hot-toast";
+import Cookies from "js-cookie";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -16,11 +17,16 @@ const Login = () => {
       // console.log(values);
       const response = await login(values).unwrap();
       const { accessToken } = response?.data;
+      const { refreshToken } = response?.data;
 
       if (rememberMe) {
         localStorage.setItem("authToken", accessToken);
+        // localStorage.setItem("refreshToken", refreshToken);
+        Cookies.set("refreshToken", refreshToken);
       } else {
         sessionStorage.setItem("authToken", accessToken);
+        // localStorage.setItem("refreshToken", refreshToken);
+        Cookies.set("refreshToken", refreshToken);
       }
 
       navigate("/");

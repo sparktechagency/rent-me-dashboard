@@ -9,10 +9,9 @@ import { IoSettingsOutline } from "react-icons/io5";
 
 import { PiUserPlus } from "react-icons/pi";
 import { LuLayoutDashboard } from "react-icons/lu";
-
+import Cookies from "js-cookie";
 import logo from "../../assets/navLogo.png";
 import { DiGoogleAnalytics } from "react-icons/di";
-import { SlCalender } from "react-icons/sl";
 
 const Sidebar = () => {
   const location = useLocation();
@@ -23,7 +22,10 @@ const Sidebar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
+    localStorage.removeItem("refreshToken");
     sessionStorage.removeItem("authToken");
+    sessionStorage.removeItem("refreshToken");
+    Cookies.remove("refreshToken");
     navigate("/auth/login");
   };
 
@@ -40,7 +42,7 @@ const Sidebar = () => {
     {
       key: "/analytics",
       icon: <DiGoogleAnalytics size={24} />,
-      label: <Link to="/analytics">Analytics</Link>,
+      label: <Link to="/analytics">Transactions</Link>,
     },
     {
       key: "/banners",

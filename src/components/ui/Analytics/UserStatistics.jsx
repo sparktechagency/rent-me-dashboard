@@ -1,48 +1,64 @@
-import React from "react";
+import React, { useState } from "react";
 import {
-  LineChart,
-  Line,
+  AreaChart,
+  Area,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
-  Brush,
-  AreaChart,
-  Area,
   ResponsiveContainer,
 } from "recharts";
 import { useOverAllStateQuery } from "../../../redux/apiSlices/dashboardSlice";
-
-const data = [
-  { name: "Jan", earning: 4000 },
-  { name: "Feb", earning: 3000 },
-  { name: "Mar", earning: 2000 },
-  { name: "Apr", earning: 3780 },
-  { name: "May", earning: 1890 },
-  { name: "Jun", earning: 3390 },
-  { name: "Jul", earning: 2490 },
-];
+import rentMeLogo from "../../../assets/navLogo.png";
 
 const UserStatistics = () => {
-  const { data: overAllState, isLoading } = useOverAllStateQuery();
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const { data: overAllState, isLoading } = useOverAllStateQuery({
+    range: selectedYear,
+  });
 
   if (isLoading) {
-    <h1>Loading...</h1>;
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <img src={rentMeLogo} alt="" />
+      </div>
+    );
   }
 
-  const chartData = overAllState?.data?.data;
+  const chartData = overAllState?.data || [];
+
+  const currentYear = new Date().getFullYear();
+  const years = Array.from(
+    { length: 12 },
+    (_, i) => currentYear - 10 + i
+  ).reverse();
 
   return (
     <div className="bg-white border p-4 rounded-2xl" style={{ width: "100%" }}>
-      <p className="font-bold mb-3">User Statistics</p>
+      <div className="flex justify-between items-center mb-3">
+        <p className="font-bold">User Statistics</p>
+        <select
+          value={selectedYear}
+          onChange={(e) => setSelectedYear(parseInt(e.target.value, 10))}
+          className="border rounded-md px-3 py-1 cursor-pointer"
+          style={{
+            maxHeight: "150px",
+            overflowY: "scroll",
+          }}
+        >
+          {years.map((year) => (
+            <option key={year} value={year}>
+              {year}
+            </option>
+          ))}
+        </select>
+      </div>
 
       <ResponsiveContainer width="100%" height={200}>
         <AreaChart
           width={500}
           height={200}
           data={chartData}
-          syncId="anyId"
           margin={{
             top: 10,
             right: 30,

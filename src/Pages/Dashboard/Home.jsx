@@ -10,7 +10,7 @@ import { GrUserNew } from "react-icons/gr";
 import { TbListCheck } from "react-icons/tb";
 import { LuPlaySquare } from "react-icons/lu";
 import RunningOrdersTable from "../../components/ui/Home/RunningOrdersTable";
-
+import rentMeLogo from "../../assets/navLogo.png";
 import UserEngagement from "../../components/ui/Home/UserEngagement";
 import GeneralStateSection from "../../components/ui/Home/GeneralStateSection";
 import { useOrderProgressQuery } from "../../redux/apiSlices/orderSlice";
@@ -21,7 +21,11 @@ const Home = () => {
   const { data: orderProgress, isLoading } = useOrderProgressQuery();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <img src={rentMeLogo} alt="" />
+      </div>
+    );
   }
 
   const orderPieData = orderProgress?.data;

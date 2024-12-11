@@ -2,6 +2,7 @@ import { Table, Input, Tooltip } from "antd";
 import { useState, useEffect } from "react";
 import { useOrdersQuery } from "../../../redux/apiSlices/orderSlice";
 import moment from "moment";
+import rentMeLogo from "../../../assets/navLogo.png";
 
 const RunningOrderTable = ({ filterProps }) => {
   const { data: orders, isLoading } = useOrdersQuery();
@@ -157,7 +158,11 @@ const RunningOrderTable = ({ filterProps }) => {
   ];
 
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <img src={rentMeLogo} alt="" />
+      </div>
+    );
   }
 
   return (

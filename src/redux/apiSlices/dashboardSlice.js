@@ -11,10 +11,10 @@ const dashboardSlice = api.injectEndpoints({
       },
     }),
     overAllState: builder.query({
-      query: () => {
+      query: ({ range }) => {
         return {
           method: "GET",
-          url: "/dashboard/overall-stat",
+          url: `/dashboard/overall-stat?range=${range}`,
         };
       },
     }),

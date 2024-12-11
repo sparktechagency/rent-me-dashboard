@@ -1,10 +1,15 @@
 import { useBestServicesQuery } from "../../../redux/apiSlices/dashboardSlice";
+import rentMeLogo from "../../../assets/navLogo.png";
 
 const BestShortsChart = () => {
   const { data: bestServices, isLoading } = useBestServicesQuery();
 
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <img src={rentMeLogo} alt="" />
+      </div>
+    );
   }
 
   const chartData = bestServices?.data || [];
