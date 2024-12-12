@@ -10,6 +10,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { useOverAllStateQuery } from "../../../redux/apiSlices/dashboardSlice";
+import rentMeLogo from "../../../assets/navLogo.png";
 
 const UserEngagement = () => {
   const currentYear = new Date().getFullYear();
@@ -28,7 +29,11 @@ const UserEngagement = () => {
   }, [selectedYear, refetch]);
 
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <img src={rentMeLogo} alt="" />
+      </div>
+    );
   }
 
   const chartData = overAllState?.data;

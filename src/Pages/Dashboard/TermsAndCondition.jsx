@@ -6,6 +6,7 @@ import {
   useUpdateTermsAndConditionsMutation,
 } from "../../redux/apiSlices/termsAndConditionSlice";
 import toast from "react-hot-toast";
+import rentMeLogo from "../../assets/navLogo.png";
 
 const TermsAndCondition = () => {
   const editor = useRef(null);
@@ -25,7 +26,11 @@ const TermsAndCondition = () => {
   const [updateTermsAndConditions] = useUpdateTermsAndConditionsMutation();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <img src={rentMeLogo} alt="" />
+      </div>
+    );
   }
 
   const termsAndConditionData = termsAndCondition?.content;

@@ -3,6 +3,7 @@ import { Table, Button, Space, Avatar } from "antd";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useUsersQuery } from "../../redux/apiSlices/userSlice";
 import randomImg from "../../assets/randomProfile2.jpg";
+import rentMeLogo from "../../assets/navLogo.png";
 
 const Users = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -12,10 +13,15 @@ const Users = () => {
   const { data: users, isLoading } = useUsersQuery();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <img src={rentMeLogo} alt="" />
+      </div>
+    );
   }
 
   const data = users?.data?.data;
+  const filteredData = data.filter((user) => user.role !== "ADMIN");
 
   const onSelectChange = (newSelectedRowKeys) => {
     console.log("selectedRowKeys changed: ", newSelectedRowKeys);
@@ -150,7 +156,7 @@ const Users = () => {
         position: ["bottomCenter"],
       }}
       columns={columns}
-      dataSource={data}
+      dataSource={filteredData}
       rowKey={(record) => record.id}
     />
   );

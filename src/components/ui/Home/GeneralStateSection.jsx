@@ -1,11 +1,16 @@
 import { FaUsers } from "react-icons/fa6";
 import { useGeneralStatsQuery } from "../../../redux/apiSlices/dashboardSlice";
+import rentMeLogo from "../../../assets/navLogo.png";
 
 const GeneralStateSection = () => {
   const { data: generalState, isLoading } = useGeneralStatsQuery();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <img src={rentMeLogo} alt="" />
+      </div>
+    );
   }
 
   const state = generalState?.data;

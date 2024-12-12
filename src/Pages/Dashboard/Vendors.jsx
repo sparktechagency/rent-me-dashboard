@@ -8,6 +8,7 @@ import {
 import moment from "moment";
 import { FaStar } from "react-icons/fa6";
 import randomImg from "../../assets/randomProfile2.jpg";
+import rentMeLogo from "../../assets/navLogo.png";
 
 // Actions
 
@@ -25,7 +26,11 @@ const Vendors = () => {
   const { data: vendors, isLoading } = useVendorsQuery();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <img src={rentMeLogo} alt="" />
+      </div>
+    );
   }
 
   const data = vendors?.data?.data;

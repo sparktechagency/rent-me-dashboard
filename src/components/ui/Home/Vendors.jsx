@@ -1,11 +1,17 @@
 import { useVendorsConversionDataQuery } from "../../../redux/apiSlices/dashboardSlice";
 import randomImg from "../../../assets/randomProfile2.jpg";
+import rentMeLogo from "../../../assets/navLogo.png";
 
 const Vendors = () => {
   const { data: vendorsConversionData, isLoading } =
     useVendorsConversionDataQuery();
+
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <img src={rentMeLogo} alt="" />
+      </div>
+    );
   }
 
   const vendorsData = vendorsConversionData?.data;

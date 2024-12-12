@@ -3,12 +3,18 @@ import { Link } from "react-router-dom";
 import { useOrdersQuery } from "../../../redux/apiSlices/orderSlice";
 import { useEffect, useState } from "react";
 import moment from "moment";
+import rentMeLogo from "../../../assets/navLogo.png";
+
 const RunningOrdersTable = () => {
   const [filteredData, setFilteredData] = useState([]);
   const { data: orders, isLoading } = useOrdersQuery();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <img src={rentMeLogo} alt="" />
+      </div>
+    );
   }
 
   const data = orders?.data?.map((order, index) => ({

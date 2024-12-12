@@ -9,6 +9,7 @@ import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import rentMeLogo from "../../assets/navLogo.png";
 
 const Banners = () => {
   const [pageSize, setPageSize] = useState(5);
@@ -38,7 +39,11 @@ const Banners = () => {
   };
 
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <img src={rentMeLogo} alt="" />
+      </div>
+    );
   }
 
   const bannerData = allBanner?.data.map((banner) => ({
