@@ -4,8 +4,10 @@ import OTPInput from "react-otp-input";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   useOtpVerifyMutation,
+  useResendOtpVerifyMutation,
   // useResendOtpMutation,
 } from "../../redux/apiSlices/authSlice";
+import toast from "react-hot-toast";
 
 const { Text } = Typography;
 
@@ -18,7 +20,7 @@ const VerifyOtp = () => {
   console.log(typeof otp);
 
   const [otpVerify] = useOtpVerifyMutation();
-  // const [resendOtp] = useResendOtpMutation(); // RTK Query mutation for resending OTP
+  const [resendOtpVerify] = useResendOtpVerifyMutation();
 
   const onFinish = async () => {
     try {
@@ -41,10 +43,10 @@ const VerifyOtp = () => {
   const handleResendEmail = async () => {
     try {
       // Trigger resend OTP API call with the email
-      const response = await resendOtp({ email }).unwrap();
+      const response = await resendOtpVerify({ email }).unwrap();
 
       if (response?.success) {
-        console.log("OTP resent successfully");
+        toast.success("OTP resent successfully");
       } else {
         console.error("Failed to resend OTP");
       }
@@ -68,7 +70,7 @@ const VerifyOtp = () => {
           <OTPInput
             value={otp}
             onChange={setOtp}
-            numInputs={4}
+            numInputs={6}
             inputStyle={{
               height: 50,
               width: 50,

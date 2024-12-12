@@ -33,7 +33,7 @@ const Vendors = () => {
     );
   }
 
-  const data = vendors?.data?.data;
+  const vendorData = vendors?.data?.data;
 
   const columns = [
     {
@@ -79,7 +79,8 @@ const Vendors = () => {
       key: "address",
       render: (record) => {
         // Extract city and other address details
-        const { city, street, state, zip, country } = record.address || {};
+        const { city, street, state, zip, country } =
+          record?.vendor?.address || {};
         return (
           <span>
             {city ? `${street}, ${city}, ${state}, ${zip}, ${country}` : "N/A"}
@@ -208,7 +209,7 @@ const Vendors = () => {
         position: ["bottomCenter"],
       }}
       columns={columns}
-      dataSource={data}
+      dataSource={vendorData}
       rowKey={(record) => record.id}
     />
   );

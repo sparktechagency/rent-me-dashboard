@@ -1,20 +1,10 @@
 import React from "react";
-import {
-  FaChartGantt,
-  FaUserCheck,
-  FaUserGroup,
-  FaUsers,
-} from "react-icons/fa6";
 import SalesTrackingChart from "../../components/ui/Home/SalesTrackingChart";
-import { GrUserNew } from "react-icons/gr";
-import { TbListCheck } from "react-icons/tb";
-import { LuPlaySquare } from "react-icons/lu";
 import RunningOrdersTable from "../../components/ui/Home/RunningOrdersTable";
 import rentMeLogo from "../../assets/navLogo.png";
 import UserEngagement from "../../components/ui/Home/UserEngagement";
 import GeneralStateSection from "../../components/ui/Home/GeneralStateSection";
 import { useOrderProgressQuery } from "../../redux/apiSlices/orderSlice";
-import { useVendorsQuery } from "../../redux/apiSlices/userSlice";
 import Vendors from "../../components/ui/Home/Vendors";
 
 const Home = () => {

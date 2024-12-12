@@ -59,7 +59,7 @@ const ForgotPassword = () => {
 
         <Form.Item>
           <button
-            htmlType="submit"
+            htmltype="submit"
             type="submit"
             style={{
               width: "100%",

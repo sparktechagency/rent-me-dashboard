@@ -11,6 +11,15 @@ const authSlice = api.injectEndpoints({
         };
       },
     }),
+    resendOtpVerify: builder.mutation({
+      query: (data) => {
+        return {
+          method: "POST",
+          url: "/auth/resend-otp",
+          body: data,
+        };
+      },
+    }),
     login: builder.mutation({
       query: (data) => {
         return {
@@ -122,6 +131,7 @@ const authSlice = api.injectEndpoints({
 
 export const {
   useOtpVerifyMutation,
+  useResendOtpVerifyMutation,
   useLoginMutation,
   useForgotPasswordMutation,
   useResetPasswordMutation,

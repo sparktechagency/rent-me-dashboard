@@ -17,7 +17,7 @@ const RunningOrdersTable = () => {
     );
   }
 
-  const data = orders?.data?.map((order, index) => ({
+  const data = orders?.data?.slice(0, 3)?.map((order, index) => ({
     ...order,
     key: order.orderId || index.toString(),
   }));
