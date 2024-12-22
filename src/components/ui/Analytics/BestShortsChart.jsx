@@ -24,7 +24,7 @@ const BestShortsChart = () => {
             viewBox="0 0 36 36"
             xmlns="http://www.w3.org/2000/svg"
           >
-            {chartData.map((service, index) => (
+            {chartData?.slice(0, 3)?.map((service, index) => (
               <circle
                 key={service._id}
                 cx="18"

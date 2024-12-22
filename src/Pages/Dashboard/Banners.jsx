@@ -102,7 +102,7 @@ const Banners = () => {
       title: "Created",
       dataIndex: "createdAt",
       key: "createdAt",
-      render: (date) => <span>{moment(date).format("DD-MM-YYYY")}</span>,
+      render: (date) => <span>{moment(date).format("lll")}</span>,
     },
     {
       title: "Status",

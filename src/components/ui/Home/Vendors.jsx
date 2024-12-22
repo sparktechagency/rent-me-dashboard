@@ -49,7 +49,9 @@ const Vendors = () => {
               </div>
             </div>
 
-            <p className="text-sm font-medium">{value?.conversionRate}%</p>
+            <p className="text-sm font-medium">
+              {value?.conversionRate.toFixed(2)}%
+            </p>
           </div>
         ))}
       </div>

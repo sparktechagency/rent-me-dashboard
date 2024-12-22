@@ -16,9 +16,11 @@ const User = () => {
 
   const user = singleUser?.data;
 
+  // console.log(user);
+
   const imgUrl =
     user?.admin?.profileImg ||
-    user?.user?.profileImg ||
+    user?.vendor?.profileImg ||
     user?.customer?.profileImg ||
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmtj40PvvTQ1g64pgKZ2oKEk-tqT9rA4CXSA&s";
 

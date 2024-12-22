@@ -22,12 +22,12 @@ const RunningOrdersTable = () => {
     key: order.orderId || index.toString(),
   }));
 
-  const runningOrders = [
-    { orderNo: "4566626", budget: "486", userName: "Bryan Chris" },
-    { orderNo: "4566627", budget: "512", userName: "Alex Johnson" },
-    { orderNo: "4566628", budget: "429", userName: "Samantha Lee" },
-    { orderNo: "4566629", budget: "389", userName: "Michael Brown" },
-  ];
+  // const runningOrders = [
+  //   { orderNo: "4566626", budget: "486", userName: "Bryan Chris" },
+  //   { orderNo: "4566627", budget: "512", userName: "Alex Johnson" },
+  //   { orderNo: "4566628", budget: "429", userName: "Samantha Lee" },
+  //   { orderNo: "4566629", budget: "389", userName: "Michael Brown" },
+  // ];
 
   const columns = [
     {
@@ -54,13 +54,13 @@ const RunningOrdersTable = () => {
     },
   ];
 
-  const data2 = runningOrders.slice(0, 3).map((order, index) => ({
-    key: index.toString(),
-    orderNo: order.orderNo,
-    budget: order.budget,
-    userName: order.userName,
-    orderDetails: <Link className="text-blue-600 underline">View Details</Link>,
-  }));
+  // const data2 = runningOrders.slice(0, 3).map((order, index) => ({
+  //   key: index.toString(),
+  //   orderNo: order.orderNo,
+  //   budget: order.budget,
+  //   userName: order.userName,
+  //   orderDetails: <Link className="text-blue-600 underline">View Details</Link>,
+  // }));
 
   return (
     <div className="border bg-white h-[300px] p-5 rounded-2xl">
