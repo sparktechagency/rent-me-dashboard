@@ -9,6 +9,7 @@ const userSlice = api.injectEndpoints({
           url: "/user?role=ADMIN",
         };
       },
+      providesTags: ["User"],
     }),
     users: builder.query({
       query: () => {
@@ -17,6 +18,7 @@ const userSlice = api.injectEndpoints({
           url: "/user",
         };
       },
+      providesTags: ["User"],
     }),
     vendors: builder.query({
       query: () => {
@@ -25,6 +27,7 @@ const userSlice = api.injectEndpoints({
           url: "/user?role=VENDOR",
         };
       },
+      providesTags: ["User"],
     }),
     userById: builder.query({
       query: (id) => {
@@ -33,6 +36,17 @@ const userSlice = api.injectEndpoints({
           url: `/user/profile/${id}`,
         };
       },
+      providesTags: ["User"],
+    }),
+
+    changeStatus: builder.mutation({
+      query: (id) => {
+        return {
+          method: "POST",
+          url: `dashboard/restrict-active-user/${id}`,
+        };
+      },
+      invalidatesTags: ["User"],
     }),
   }),
 });
@@ -42,4 +56,5 @@ export const {
   useUsersQuery,
   useVendorsQuery,
   useUserByIdQuery,
+  useChangeStatusMutation,
 } = userSlice;

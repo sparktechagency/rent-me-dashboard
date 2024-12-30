@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import { Table, Button, Space, Avatar } from "antd";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import { useUsersQuery } from "../../redux/apiSlices/userSlice";
+import {
+  useChangeStatusMutation,
+  useUsersQuery,
+} from "../../redux/apiSlices/userSlice";
 import randomImg from "../../assets/randomProfile2.jpg";
 import rentMeLogo from "../../assets/navLogo.png";
+import toast from "react-hot-toast";
 
 const Users = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -11,6 +15,7 @@ const Users = () => {
   const [pageSize, setPageSize] = useState(10);
 
   const { data: users, isLoading } = useUsersQuery();
+  const [changeStatus] = useChangeStatusMutation();
 
   if (isLoading) {
     return (
@@ -26,6 +31,20 @@ const Users = () => {
   const onSelectChange = (newSelectedRowKeys) => {
     console.log("selectedRowKeys changed: ", newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
+  };
+
+  const handleStatusChange = async (id) => {
+    try {
+      const response = await changeStatus(id);
+      console.log(response);
+      if (response?.data?.success) {
+        toast.success("Status Updated Successfully");
+      } else {
+        console.error(err);
+      }
+    } catch (err) {
+      toast.error("Failed to Update Status");
+    }
   };
 
   const columns = [
@@ -80,17 +99,17 @@ const Users = () => {
       render: (status) => {
         let color;
         switch (status) {
-          case "Active":
+          case "active":
             color = "green";
             break;
-          case "Inactive":
+          case "restricted":
             color = "red";
             break;
           case "Pending":
             color = "orange";
             break;
           default:
-            color = "gray"; // Default color for unknown statuses
+            color = "gray";
         }
 
         return <span style={{ color }}>{status}</span>;
@@ -101,15 +120,27 @@ const Users = () => {
       key: "actions",
       render: (text, record) => (
         <Space>
-          <Link to={`/user/profile/${record.id}`}>
+          <Link to={`/user/profile/${record._id}`}>
             <Button className="bg-[#FFF4E3] text-[#F3B806] border-none">
               Details
             </Button>
           </Link>
 
-          <Button className="border border-red-600 text-red-700 ">
-            Restrict
-          </Button>
+          {record?.status === "active" ? (
+            <Button
+              onClick={() => handleStatusChange(record._id)}
+              className="border border-red-600 text-red-700 "
+            >
+              Restrict
+            </Button>
+          ) : (
+            <Button
+              onClick={() => handleStatusChange(record._id)}
+              className="border border-green-600 text-green-700 "
+            >
+              Active
+            </Button>
+          )}
         </Space>
       ),
     },

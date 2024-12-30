@@ -72,16 +72,16 @@ const User = () => {
             </h1>
             <p className="text-lg my-2">
               {user?.admin?.address
-                ? user.admin.address.city && user.admin.address.country
-                  ? `${user.admin.address.city}, ${user.admin.address.country}`
+                ? user.admin.address.city && user.admin.address.state
+                  ? `${user.admin.address.city}, ${user.admin.address.state}`
                   : user.admin.address
                 : user?.user?.address
-                ? user.user.address.city && user.user.address.country
-                  ? `${user.user.address.city}, ${user.user.address.country}`
+                ? user.user.address.city && user.user.address.state
+                  ? `${user.user.address.city}, ${user.user.address.state}`
                   : user.user.address
                 : user?.vendor?.address
-                ? user.vendor.address.city && user.vendor.address.country
-                  ? `${user.vendor.address.city}, ${user.vendor.address.country}`
+                ? user.vendor.address.city && user.vendor.address.state
+                  ? `${user.vendor.address.city}, ${user.vendor.address.state}`
                   : user.vendor.address
                 : "N/A"}
             </p>

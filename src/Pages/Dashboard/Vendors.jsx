@@ -143,7 +143,7 @@ const Vendors = () => {
       align: "center",
       render: (text, record) => (
         <Space>
-          <Link to={`/user/profile/${record.id}`}>
+          <Link to={`/user/profile/${record._id}`}>
             <Button className="bg-[#FFF4E3] text-[#F3B806] border-none">
               Details
             </Button>
@@ -151,7 +151,7 @@ const Vendors = () => {
 
           <Button
             className="border border-red-600 text-red-700 "
-            onClick={() => handleRestrict(record.id)}
+            onClick={() => handleRestrict(record._id)}
           >
             Restrict
           </Button>

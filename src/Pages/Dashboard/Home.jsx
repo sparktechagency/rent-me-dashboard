@@ -66,7 +66,7 @@ const Home = () => {
 
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#faf6ef] w-24 h-24 rounded-full flex flex-col items-center justify-center">
                 <span className="text-2xl font-bold">
-                  {orderPieData?.completedPercentage}%
+                  {orderPieData?.completedPercentage?.toFixed(2)}%
                 </span>
               </div>
             </div>
@@ -75,7 +75,7 @@ const Home = () => {
               <div className="flex items-center gap-2">
                 <div className="w-4 h-3 rounded-3xl bg-[#F3E524]"></div>
                 <p className="text-sm font-medium">
-                  Completed: {orderPieData?.completedPercentage}%
+                  Completed: {orderPieData?.completedPercentage?.toFixed(1)}%
                 </p>
               </div>
               <div className="flex items-center gap-2">

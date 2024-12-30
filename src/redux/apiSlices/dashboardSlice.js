@@ -27,6 +27,14 @@ const dashboardSlice = api.injectEndpoints({
         };
       },
     }),
+    saleAndRevenue: builder.query({
+      query: () => {
+        return {
+          method: "GET",
+          url: "dashboard/sale-revenue",
+        };
+      },
+    }),
 
     vendorsConversionData: builder.query({
       query: () => {
@@ -44,4 +52,5 @@ export const {
   useOverAllStateQuery,
   useBestServicesQuery,
   useVendorsConversionDataQuery,
+  useSaleAndRevenueQuery,
 } = dashboardSlice;
