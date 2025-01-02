@@ -2,7 +2,7 @@ import { Menu } from "antd";
 import React, { useEffect, useState } from "react";
 import { MdFeaturedPlayList } from "react-icons/md";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-
+import { BiSolidCategoryAlt } from "react-icons/bi";
 import { TbUserScreen } from "react-icons/tb";
 import { IoIosLogOut } from "react-icons/io";
 import { IoSettingsOutline } from "react-icons/io5";
@@ -48,6 +48,11 @@ const Sidebar = () => {
       key: "/banners",
       icon: <MdFeaturedPlayList size={24} />,
       label: <Link to="/banners">Banners</Link>,
+    },
+    {
+      key: "/categories",
+      icon: <BiSolidCategoryAlt size={24} />,
+      label: <Link to="/categories">Categories</Link>,
     },
     {
       key: "/users",

@@ -36,6 +36,7 @@ import PrivateRoute from "./PrivateRoute";
 import Banners from "../Pages/Dashboard/Banners";
 import EditBanners from "../components/ui/Banners/EditBanners";
 import AddBanners from "../components/ui/Banners/AddBanners";
+import Categories from "../Pages/Dashboard/Categories";
 
 const router = createBrowserRouter([
   {
@@ -62,6 +63,10 @@ const router = createBrowserRouter([
       {
         path: "/banners",
         element: <Banners />,
+      },
+      {
+        path: "/categories",
+        element: <Categories />,
       },
       {
         path: "/update-banner/:id",

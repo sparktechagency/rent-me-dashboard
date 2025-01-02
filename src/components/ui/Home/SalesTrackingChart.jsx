@@ -28,7 +28,7 @@ const SalesTrackingChart = () => {
     date: moment(item.date).format("ddd"),
   }));
 
-  console.log(saleAndRevenueData);
+  // console.log(saleAndRevenueData);
 
   return (
     <ResponsiveContainer width="90%" height={230}>

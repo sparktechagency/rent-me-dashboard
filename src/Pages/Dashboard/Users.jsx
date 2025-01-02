@@ -26,7 +26,7 @@ const Users = () => {
   }
 
   const data = users?.data?.data;
-  const filteredData = data.filter((user) => user.role !== "ADMIN");
+  const filteredData = data?.filter((user) => user.role !== "ADMIN");
 
   const onSelectChange = (newSelectedRowKeys) => {
     console.log("selectedRowKeys changed: ", newSelectedRowKeys);

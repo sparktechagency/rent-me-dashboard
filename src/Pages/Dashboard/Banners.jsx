@@ -15,7 +15,7 @@ const Banners = () => {
   const [pageSize, setPageSize] = useState(5);
   const { data: allBanner, isLoading, refetch } = useAllBannerQuery();
   const [deleteBanner] = useDeleteBannerMutation();
-  const [isDeleting, setIsDeleting] = useState(false); // To handle loading state for delete operation
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDelete = async (id) => {
     Modal.confirm({
