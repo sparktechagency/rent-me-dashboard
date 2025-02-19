@@ -38,7 +38,11 @@ const PersonalInfo = () => {
         address: adminData?.address,
         phone: adminData?.contact,
       });
-      setImgURL(`${baseUrl}${adminData?.profileImg}`);
+      setImgURL(
+        adminData?.profileImg?.startsWith("http")
+          ? adminData?.profileImg
+          : `${baseUrl}${adminData?.profileImg}`
+      );
       setContact(adminData?.contact);
     }
   }, [form, adminData]);

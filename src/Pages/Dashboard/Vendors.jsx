@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Table, Button, Space, Avatar } from "antd";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import {
+  useChangeStatusMutation,
   useUsersQuery,
   useVendorsQuery,
 } from "../../redux/apiSlices/userSlice";
@@ -24,6 +25,7 @@ const Vendors = () => {
   };
 
   const { data: vendors, isLoading } = useVendorsQuery();
+  const [changeStatus] = useChangeStatusMutation();
 
   if (isLoading) {
     return (
@@ -34,6 +36,21 @@ const Vendors = () => {
   }
 
   const vendorData = vendors?.data?.data;
+  // console.log(vendorData);
+
+  const handleStatusChange = async (id) => {
+    try {
+      const response = await changeStatus(id);
+      console.log(response);
+      if (response?.data?.success) {
+        toast.success("Status Updated Successfully");
+      } else {
+        console.error(err);
+      }
+    } catch (err) {
+      toast.error("Failed to Update Status");
+    }
+  };
 
   const columns = [
     {
@@ -149,12 +166,21 @@ const Vendors = () => {
             </Button>
           </Link>
 
-          <Button
-            className="border border-red-600 text-red-700 "
-            onClick={() => handleRestrict(record._id)}
-          >
-            Restrict
-          </Button>
+          {record?.status === "active" ? (
+            <Button
+              onClick={() => handleStatusChange(record._id)}
+              className="border border-red-600 text-red-700 "
+            >
+              Restrict
+            </Button>
+          ) : (
+            <Button
+              onClick={() => handleStatusChange(record._id)}
+              className="border border-green-600 text-green-700 "
+            >
+              Active
+            </Button>
+          )}
         </Space>
       ),
     },

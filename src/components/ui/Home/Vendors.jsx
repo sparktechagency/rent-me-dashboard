@@ -15,6 +15,7 @@ const Vendors = () => {
   }
 
   const vendorsData = vendorsConversionData?.data;
+  console.log(vendorsData);
 
   const topVendors = [...(vendorsData || [])]
     .sort((a, b) => b.conversionRate - a.conversionRate)
@@ -30,8 +31,8 @@ const Vendors = () => {
               className="w-7 h-7 rounded-full"
               src={
                 value?.profileImg
-                  ? value.profileImg.startsWith("http")
-                    ? value.profileImg
+                  ? value?.profileImg?.startsWith("http")
+                    ? value?.profileImg
                     : `${import.meta.env.VITE_BASE_URL}${value.profileImg}`
                   : randomImg
               }

@@ -74,30 +74,30 @@ const Banners = () => {
       key: "title",
       render: (text) => <a>{text}</a>,
     },
-    {
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
-    },
-    {
-      title: "Link",
-      dataIndex: "link",
-      key: "link",
-      render: (link) => (
-        <a
-          className="font-bold text-blue-600 underline"
-          href={
-            link.startsWith("http")
-              ? link
-              : `${import.meta.env.VITE_BASE_URL}${link}`
-          }
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Link
-        </a>
-      ),
-    },
+    // {
+    //   title: "Description",
+    //   dataIndex: "description",
+    //   key: "description",
+    // },
+    // {
+    //   title: "Link",
+    //   dataIndex: "link",
+    //   key: "link",
+    //   render: (link) => (
+    //     <a
+    //       className="font-bold text-blue-600 underline"
+    //       href={
+    //         link.startsWith("http")
+    //           ? link
+    //           : `${import.meta.env.VITE_BASE_URL}${link}`
+    //       }
+    //       target="_blank"
+    //       rel="noopener noreferrer"
+    //     >
+    //       Link
+    //     </a>
+    //   ),
+    // },
     {
       title: "Created",
       dataIndex: "createdAt",

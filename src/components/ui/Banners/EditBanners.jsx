@@ -23,7 +23,11 @@ const EditBanners = () => {
 
   useEffect(() => {
     if (bannerData?.imgUrl) {
-      setImgURL(`${import.meta.env.VITE_BASE_URL}${bannerData?.imgUrl}`);
+      setImgURL(
+        bannerData?.imgUrl?.startsWith("http")
+          ? bannerData?.imgUrl
+          : `${import.meta.env.VITE_BASE_URL}${bannerData?.imgUrl}`
+      );
       setFile(`${import.meta.env.VITE_BASE_URL}${bannerData?.imgUrl}`);
     }
   }, [bannerData]);
@@ -42,9 +46,9 @@ const EditBanners = () => {
       // Prepare FormData
       const formData = new FormData();
       formData.append("title", values.title);
-      formData.append("description", values.description);
-      formData.append("link", values.link);
-      formData.append("btnText", values.btnText);
+      // formData.append("description", values.description);
+      // formData.append("link", values.link);
+      // formData.append("btnText", values.btnText);
       formData.append("isActive", values.isActive ? "true" : "false");
 
       // Include the image file as 'image'
@@ -102,7 +106,7 @@ const EditBanners = () => {
             <Input placeholder="Enter banner title" />
           </Form.Item>
 
-          <Form.Item
+          {/* <Form.Item
             name="description"
             label="Description"
             rules={[
@@ -128,7 +132,7 @@ const EditBanners = () => {
             ]}
           >
             <Input placeholder="Enter button text" />
-          </Form.Item>
+          </Form.Item> */}
 
           <div className="flex flex-col items-center mb-4">
             <input

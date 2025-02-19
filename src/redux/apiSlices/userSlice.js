@@ -48,6 +48,16 @@ const userSlice = api.injectEndpoints({
       },
       invalidatesTags: ["User"],
     }),
+
+    restrictUser: builder.mutation({
+      query: (id) => {
+        return {
+          method: "POST",
+          url: `/auth/restrict-user/${id}`,
+        };
+      },
+      invalidatesTags: ["User"],
+    }),
   }),
 });
 

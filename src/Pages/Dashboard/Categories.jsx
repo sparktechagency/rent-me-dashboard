@@ -42,6 +42,7 @@ const Categories = () => {
 
   const onChangeImage = (e) => {
     const selectedFile = e.target.files[0];
+
     if (selectedFile) {
       const imgUrl = URL.createObjectURL(selectedFile);
       setImgURL(imgUrl);
@@ -84,7 +85,11 @@ const Categories = () => {
   const showEditModal = (category) => {
     setCurrentCategory(category);
     form.setFieldsValue({ name: category.name });
-    setImgURL(category.image);
+    setImgURL(
+      category?.image?.startsWith("http")
+        ? category?.image
+        : `${import.meta.env.VITE_BASE_URL}${category?.image}`
+    );
     setFile(category.image);
     setIsEditModalVisible(true);
   };

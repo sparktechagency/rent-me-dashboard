@@ -37,9 +37,9 @@ const AddBanners = () => {
       // Prepare FormData
       const formData = new FormData();
       formData.append("title", values.title);
-      formData.append("description", values.description);
-      formData.append("link", values.link);
-      formData.append("btnText", values.btnText);
+      // formData.append("description", values.description);
+      // formData.append("link", values.link);
+      // formData.append("btnText", values.btnText);
       formData.append("isActive", values.isActive ? "true" : "false");
 
       // Include the image file as 'image'
@@ -79,7 +79,7 @@ const AddBanners = () => {
           <Input placeholder="Enter banner title" />
         </Form.Item>
 
-        <Form.Item
+        {/* <Form.Item
           name="description"
           label="Description"
           rules={[{ required: true, message: "Please input the description!" }]}
@@ -101,7 +101,7 @@ const AddBanners = () => {
           rules={[{ required: true, message: "Please input the button text!" }]}
         >
           <Input placeholder="Enter button text" />
-        </Form.Item>
+        </Form.Item> */}
 
         <div className="flex flex-col items-center mb-4">
           <input

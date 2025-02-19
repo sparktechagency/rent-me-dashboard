@@ -17,6 +17,9 @@ const Header = () => {
     );
   }
 
+  const profile = userData?.data;
+  // console.log(profile);
+
   return (
     <div className="flex items-center gap-5 justify-end">
       <Link to="/notification" className="h-fit mt-[10px]">
@@ -33,16 +36,16 @@ const Header = () => {
             height: 45,
           }}
           src={
-            userData?.data?.profileImg
-              ? `${import.meta.env.VITE_BASE_URL}${userData?.data?.profileImg}`
-              : logo
+            profile?.profileImg?.startsWith("http")
+              ? profile?.profileImg
+              : `${import.meta.env.VITE_BASE_URL}${profile?.profileImg}`
           }
           alt="person-male--v2"
           className="clip"
         />
         <div className="flex pr-2 flex-col">
-          <p className="text-xl">{userData?.data?.name}</p>
-          <p className="text-sm text-gray-500">{userData?.data?.role}</p>
+          <p className="text-xl">{profile?.name}</p>
+          <p className="text-sm text-gray-500">{profile?.role}</p>
         </div>
       </div>
     </div>

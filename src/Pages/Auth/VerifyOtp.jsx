@@ -5,7 +5,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import {
   useOtpVerifyMutation,
   useResendOtpVerifyMutation,
-  // useResendOtpMutation,
 } from "../../redux/apiSlices/authSlice";
 import toast from "react-hot-toast";
 

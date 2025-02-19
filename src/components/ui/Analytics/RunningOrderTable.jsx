@@ -56,7 +56,7 @@ const RunningOrderTable = ({ filterProps }) => {
   };
 
   const truncateWithEllipsis = (text, length = 20) =>
-    text.length > length ? `${text.slice(0, length)}...` : text;
+    text?.length > length ? `${text.slice(0, length)}...` : text;
 
   const columns = [
     {
