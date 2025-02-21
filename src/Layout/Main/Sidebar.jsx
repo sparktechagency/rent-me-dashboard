@@ -113,6 +113,14 @@ const Sidebar = () => {
             </Link>
           ),
         },
+        {
+          key: "/faq",
+          label: (
+            <Link to="/faq" className="text-white hover:text-white">
+              FAQ
+            </Link>
+          ),
+        },
       ],
     },
     {

@@ -56,10 +56,10 @@ const AddBanners = () => {
         toast.success(response?.data?.message);
         navigate("/banners");
       } else {
-        toast.error(response?.data?.message);
+        toast.error(response?.message);
       }
     } catch (error) {
-      console.error("Error submitting form:", error);
+      toast.error(error?.data?.message || "Failed to add banner.");
     }
   };
 

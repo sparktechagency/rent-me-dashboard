@@ -21,11 +21,11 @@ const Login = () => {
 
       if (rememberMe) {
         localStorage.setItem("authToken", accessToken);
-        // localStorage.setItem("refreshToken", refreshToken);
+        localStorage.setItem("refreshToken", refreshToken);
         Cookies.set("refreshToken", refreshToken);
       } else {
         sessionStorage.setItem("authToken", accessToken);
-        // localStorage.setItem("refreshToken", refreshToken);
+        sessionStorage.setItem("refreshToken", refreshToken);
         Cookies.set("refreshToken", refreshToken);
       }
 

@@ -1,99 +1,115 @@
-import React, { useState } from 'react';
-import { FaPlus } from 'react-icons/fa';
-import { GoQuestion } from 'react-icons/go';
-import { CiEdit } from 'react-icons/ci';
-import { RxCross2 } from 'react-icons/rx';
-import FaqModal from '../../components/ui/FAQ/FaqModal';
-import Title from '../../components/common/Title';
-
+import React, { useState, useRef, useEffect } from "react";
+import JoditEditor from "jodit-react";
+import Title from "../../components/common/Title";
+import {
+  useTermsAndConditionQuery,
+  useUpdateTermsAndConditionsMutation,
+} from "../../redux/apiSlices/termsAndConditionSlice";
+import toast from "react-hot-toast";
+import rentMeLogo from "../../assets/navLogo.png";
+import {
+  useFaqQuery,
+  useUpdateFaqMutation,
+} from "../../redux/apiSlices/faqSlice";
 
 const FAQ = () => {
-  const [openAddModel, setOpenAddModel] = useState(false);
-  const [modalData, setModalData] = useState(null);
+  const editor = useRef(null);
+  const [content, setContent] = useState("");
+  const [selectedTab, setSelectedTab] = useState("USER");
 
-  const handleDelete = async (id) => {
-    // Handle delete logic here
-  }; 
+  useEffect(() => {
+    setContent(content);
+  }, [selectedTab]);
 
-  const faqInfo = [
-    {
-      _id: "1",
-      question: "What is your return policy?",
-      answer: "Our return policy allows returns within 30 days of purchase with a valid receipt. Items must be in their original condition.",
-    },
-    {
-      _id: "2",
-      question: "How can I track my order?",
-      answer: "You can track your order by using the tracking link sent to your email upon shipment. Alternatively, log in to your account to view the order status.",
-    },
-    {
-      _id: "3",
-      question: "Do you offer international shipping?",
-      answer: "Yes, we offer international shipping to selected countries. Please check our shipping information page for more details.",
-    },
-    {
-      _id: "4",
-      question: "How do I reset my password?",
-      answer: "To reset your password, click on 'Forgot Password' on the login page. A password reset link will be sent to your registered email address.",
-    },
-    {
-      _id: "5",
-      question: "How do I reset my password?",
-      answer: "To reset your password, click on 'Forgot Password' on the login page. A password reset link will be sent to your registered email address.",
-    },
+  const { data: faq, isLoading, refetch } = useFaqQuery(selectedTab);
 
-  ];
-  
+  const [updateFaq] = useUpdateFaqMutation();
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <img src={rentMeLogo} alt="" />
+      </div>
+    );
+  }
+
+  const faqData = faq?.content;
+
+  const faqDataSave = async () => {
+    const data = {
+      content: content,
+      userType: selectedTab,
+    };
+
+    try {
+      const res = await updateFaq(data).unwrap();
+      if (res.success) {
+        toast.success("FAQ updated successfully");
+        setContent(res.data.content);
+        refetch();
+      } else {
+        toast.error("Something went wrong");
+      }
+    } catch (error) {
+      console.error("Update failed:", error);
+      toast.error("Update failed. Please try again.");
+    }
+  };
+
+  const tabContent = {
+    USER: faqData,
+    VENDOR: faqData,
+    CUSTOMER: faqData,
+  };
 
   return (
-    <div className="">
-      <div className=" mb-4 flex justify-between items-center w-full">
-      <Title className=''>Frequently Asked Questions</Title>
+    <div>
+      <Title className="mb-4">Frequently Asked Questions</Title>
+
+      <div className="flex justify-center gap-4 mb-4">
         <button
-          onClick={() => setOpenAddModel(true)}
-          className="flex items-center gap-1 px-4 py-2 text-white bg-[#00809E] rounded hover:bg-[#006d80] transition-colors"
+          className={`px-4 rounded-2xl py-2 ${
+            selectedTab === "USER" ? "bg-[#FFD900]" : "bg-gray-200"
+          }`}
+          onClick={() => setSelectedTab("USER")}
         >
-          <FaPlus />
-          Add FAQ
+          Users
+        </button>
+        <button
+          className={`px-4 rounded-2xl py-2 ${
+            selectedTab === "VENDOR" ? "bg-[#FFD900]" : "bg-gray-200"
+          }`}
+          onClick={() => setSelectedTab("VENDOR")}
+        >
+          Vendors
+        </button>
+        <button
+          className={`px-4 rounded-2xl py-2 ${
+            selectedTab === "CUSTOMER" ? "bg-[#FFD900]" : "bg-gray-200"
+          }`}
+          onClick={() => setSelectedTab("CUSTOMER")}
+        >
+          Customers
         </button>
       </div>
 
-      <div className=" pb-6 px-4 rounded-md">
-        {faqInfo?.map((item, index) => (
-          <div key={index} className="flex justify-between items-start gap-4 py-4 px-4 rounded-lg bg-white mb-3">
-            <GoQuestion color="#00809E" size={25} className="mt-3" />
-            <div className="flex-1">
-              <p className="text-base font-medium rounded-xl py-2 px-4 flex items-center gap-8">
-                <span className="flex-1">{item?.question}</span>
-              </p>
-              <div className=" rounded-xl py-2 px-4 mt-4">
-                <p className="text-[#919191] leading-6">{item?.answer}</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2 pt-4">
-              <CiEdit
-                onClick={() => {
-                  setOpenAddModel(true);
-                  setModalData(item);
-                }}
-                className="text-2xl cursor-pointer text-[#00809E]"
-              />
-              <RxCross2
-                onClick={() => handleDelete(item?._id)}
-                className="text-2xl cursor-pointer text-red-600"
-              />
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <FaqModal
-        setOpenAddModel={setOpenAddModel}
-        openAddModel={openAddModel}
-        modalData={modalData}
-        setModalData={setModalData}
-
+      <JoditEditor
+        ref={editor}
+        value={tabContent[selectedTab]}
+        onChange={(newContent) => {
+          setContent(newContent);
+        }}
       />
+
+      <div className="flex items-center justify-center mt-5">
+        <button
+          onClick={faqDataSave}
+          type="submit"
+          className="bg-[#FFD900] w-[160px] h-[42px] rounded-lg"
+        >
+          Submit
+        </button>
+      </div>
     </div>
   );
 };
