@@ -37,6 +37,8 @@ import Banners from "../Pages/Dashboard/Banners";
 import EditBanners from "../components/ui/Banners/EditBanners";
 import AddBanners from "../components/ui/Banners/AddBanners";
 import Categories from "../Pages/Dashboard/Categories";
+import TermsAndConditions from "../Pages/PublicPages/TermsAndConditions";
+import PublicPrivacy from "../Pages/PublicPages/PublicPrivacy";
 
 const router = createBrowserRouter([
   {
@@ -164,6 +166,14 @@ const router = createBrowserRouter([
         element: <Notifications />,
       },
     ],
+  },
+  {
+    path: "/public/termsAndConditions",
+    element: <TermsAndConditions />,
+  },
+  {
+    path: "/public/privacyPolicy",
+    element: <PublicPrivacy />,
   },
   {
     path: "/auth",

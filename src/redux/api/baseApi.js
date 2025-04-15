@@ -6,7 +6,8 @@ import Cookies from "js-cookie";
 const baseQueryWithReauth = async (args, api, extraOptions) => {
   const baseQuery = fetchBaseQuery({
     // baseUrl: "https://asad.binarybards.online/api/v1",
-    baseUrl: "http://54.241.243.33:5000/api/v1",
+    // baseUrl: "http://54.241.243.33:5000/api/v1",
+    baseUrl: "https://api.rentmeus.com/api/v1",
     prepareHeaders: (headers) => {
       const token =
         localStorage.getItem("authToken") ||
@@ -84,5 +85,6 @@ export const api = createApi({
 
 // Export the image URL as a constant
 
-export const imageUrl = "http://54.241.243.33:5000";
+export const imageUrl = "https://api.rentmeus.com";
+// export const imageUrl = "http://54.241.243.33:5000";
 // export const imageUrl = "https://asad.binarybards.online";
