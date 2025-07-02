@@ -39,6 +39,7 @@ import AddBanners from "../components/ui/Banners/AddBanners";
 import Categories from "../Pages/Dashboard/Categories";
 import TermsAndConditions from "../Pages/PublicPages/TermsAndConditions";
 import PublicPrivacy from "../Pages/PublicPages/PublicPrivacy";
+import PaymentSuccess from "../components/ui/Public/PaymentSuccess";
 
 const router = createBrowserRouter([
   {
@@ -174,6 +175,10 @@ const router = createBrowserRouter([
   {
     path: "/public/privacyPolicy",
     element: <PublicPrivacy />,
+  },
+  {
+    path: "/public/payment-success",
+    element: <PaymentSuccess />,
   },
   {
     path: "/auth",
