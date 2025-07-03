@@ -40,6 +40,7 @@ import Categories from "../Pages/Dashboard/Categories";
 import TermsAndConditions from "../Pages/PublicPages/TermsAndConditions";
 import PublicPrivacy from "../Pages/PublicPages/PublicPrivacy";
 import PaymentSuccess from "../components/ui/Public/PaymentSuccess";
+import ObBoardSuccess from "../components/ui/Public/OnBoardSuccess";
 
 const router = createBrowserRouter([
   {
@@ -179,6 +180,10 @@ const router = createBrowserRouter([
   {
     path: "/public/payment-success",
     element: <PaymentSuccess />,
+  },
+  {
+    path: "/public/onboard-success",
+    element: <ObBoardSuccess />,
   },
   {
     path: "/auth",
